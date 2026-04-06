@@ -19,8 +19,10 @@ from benchmarks.circuits import REFERENCE_TABLE, build_circuit_qiskit, sample_ci
 
 PLATFORM = "aqt"
 HARDWARE_BACKEND = "ibex"
+HARDWARE_WORKSPACE = "insight-softmax-isc"
 OFFLINE_SIMULATOR = "offline_simulator_no_noise"
 ONLINE_SIMULATOR = "simulator_noise"
+ONLINE_SIMULATOR_WORKSPACE = "aqt_simulators"
 
 
 def _get_provider():
@@ -41,12 +43,14 @@ def submit(
 
     provider = _get_provider()
     if dry_run:
+        backend = provider.get_backend(OFFLINE_SIMULATOR)
         backend_name = OFFLINE_SIMULATOR
     elif use_simulator:
+        backend = provider.get_backend(ONLINE_SIMULATOR, workspace=ONLINE_SIMULATOR_WORKSPACE)
         backend_name = ONLINE_SIMULATOR
     else:
+        backend = provider.get_backend(HARDWARE_BACKEND, workspace=HARDWARE_WORKSPACE)
         backend_name = HARDWARE_BACKEND
-    backend = provider.get_backend(backend_name)
 
     sampled_keys = sample_circuits(n_circuits)
 

@@ -2,8 +2,8 @@ name: Submit Benchmark
 
 on:
   schedule:
-    # Every Monday at 12:00 UTC
-    - cron: "0 12 * * 1"
+    # Every Tuesday at 10:00 UTC (11:00 CET / 12:00 CEST) — within AQT hardware access window
+    - cron: "0 10 * * 2"
   workflow_dispatch:
     inputs:
       platform:

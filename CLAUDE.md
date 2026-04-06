@@ -79,8 +79,8 @@ Per run: sample **10 circuits** stratified across lengths/states, **100 shots** 
 
 | Platform | Module | Access path | Status |
 |---|---|---|---|
-| Rigetti Ankaa-3 | `rigetti_braket` | AWS Braket (OIDC/IAM) | Active — manual weekly runs (Arash) |
-| AQT | `aqt_qiskit` | Qiskit + qiskit-aqt-provider (`AQT_API_KEY`) | Active — manual weekly runs (Arash); confirm backend name before automating |
+| Rigetti Ankaa-3 | `rigetti_braket` | AWS Braket (OIDC/IAM) | Active — automated weekly (Tuesdays 10:00 UTC) |
+| AQT | `aqt_qiskit` | Qiskit + qiskit-aqt-provider (`AQT_API_KEY`) | Active — automated weekly (Tuesdays 10:00 UTC); hardware window Tue/Wed 10:00–17:00 CET |
 | IonQ Aria-1 | `ionq_braket` | AWS Braket (OIDC/IAM) | Paused (budget) |
 | IBM | `ibm_qiskit` | Qiskit Runtime (`IBM_QUANTUM_TOKEN`) | Pending — locate Sami's notebook and existing results; org account is `Qiskit Runtime - Standard` (pay-as-you-go) |
 
