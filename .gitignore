@@ -127,3 +127,18 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Raw S3 data (too large to commit)
+data/braket-raw/
+
+# macOS
+.DS_Store
+
+# Archive duplicates / one-off exports
+archive/claire_S3_results.ipynb
+archive/claire_S3_results (1).ipynb
+archive/claire_noise_profiling_ionq.ipynb
+archive/claire_noise_profiling_ionq (1).ipynb
+archive/noise_profiling_across_batch_of_ionq_circuits_claire.ipynb
+archive/noise_profiling_across_batch_of_ionq_circuits_sami (1).ipynb
+archive/data_for_Damian.pkl

@@ -1,0 +1,65 @@
+name: Collect Results
+
+on:
+  schedule:
+    # Every 6 hours — keeps checking until all pending jobs complete,
+    # regardless of how long the queue is (IonQ can be days).
+    - cron: "0 */6 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  collect:
+    name: Collect completed jobs
+    runs-on: ubuntu-latest
+    environment: quantum-production
+
+    permissions:
+      contents: write   # to commit results and remove pending files
+      id-token: write   # for OIDC
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check for pending jobs
+        id: check
+        run: |
+          count=$(find pending/ -name '*.json' 2>/dev/null | wc -l | tr -d ' ')
+          echo "pending_count=$count" >> "$GITHUB_OUTPUT"
+          echo "Pending batches: $count"
+
+      - name: Configure AWS credentials (OIDC)
+        if: steps.check.outputs.pending_count != '0'
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: us-west-1   # Rigetti Ankaa-3 is in us-west-1; S3 bucket must match
+
+      - name: Install uv
+        if: steps.check.outputs.pending_count != '0'
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        if: steps.check.outputs.pending_count != '0'
+        run: uv sync
+
+      - name: Collect results
+        if: steps.check.outputs.pending_count != '0'
+        env:
+          BRAKET_RESULTS_BUCKET: ${{ vars.BRAKET_RESULTS_BUCKET }}
+          AQT_API_KEY: ${{ secrets.AQT_API_KEY }}
+        run: uv run python scripts/collect_results.py
+
+      - name: Commit results
+        if: steps.check.outputs.pending_count != '0'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/ pending/
+          git diff --staged --quiet || git commit -m "chore: collect benchmark results $(date -u +%Y-%m-%d)"
+          git push
