@@ -135,6 +135,7 @@ data/braket-raw/
 .DS_Store
 
 # Dashboard
+dashboard/*.pdf
 dashboard/node_modules/
 dashboard/.observablehq/cache/
 dashboard/src/.observablehq/

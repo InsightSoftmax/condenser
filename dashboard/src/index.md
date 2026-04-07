@@ -44,7 +44,7 @@ const allRuns = summary.flatMap(p =>
   p.sparkline.map(d => ({...d, platform: p.platform, date: new Date(d.date)}))
 );
 
-const platformColors = {rigetti: "#4a90d9", aqt: "#00c2a8", ionq: "#f59e0b"};
+const platformColors = {rigetti: "#CC8A00", aqt: "#363D47", ionq: "#74737B"};
 
 Plot.plot({
   width: 900,

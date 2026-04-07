@@ -35,7 +35,7 @@ Superconducting QPU accessed via AWS Braket. Runs weekly on Tuesdays.
 Each point is the mean success rate across the 10 circuits sampled that week. The shaded band shows ±1 standard deviation within the run.
 
 ```js
-successTimeSeries(data, {color: "#4a90d9"})
+successTimeSeries(data, {color: "#CC8A00"})
 ```
 
 ## Breakdown by circuit depth
@@ -43,7 +43,7 @@ successTimeSeries(data, {color: "#4a90d9"})
 How does fidelity change as circuits get deeper? Each additional CNOT adds one more gate error opportunity.
 
 ```js
-successByLength(data, {color: "#4a90d9"})
+successByLength(data, {color: "#CC8A00"})
 ```
 
 ## Breakdown by input state
@@ -51,7 +51,7 @@ successByLength(data, {color: "#4a90d9"})
 Does the initial qubit state affect results? Ideally it shouldn't — deviations suggest state-preparation or readout asymmetry.
 
 ```js
-successByInput(data, {color: "#4a90d9"})
+successByInput(data, {color: "#CC8A00"})
 ```
 
 ## Recent runs

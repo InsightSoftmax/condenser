@@ -29,17 +29,17 @@ Trapped-ion QPU accessed via AWS Braket. Historical data from February–March 2
 ## Success probability over time
 
 ```js
-successTimeSeries(data, {color: "#f59e0b"})
+successTimeSeries(data, {color: "#74737B"})
 ```
 
 ## Breakdown by circuit depth
 
 ```js
-successByLength(data, {color: "#f59e0b"})
+successByLength(data, {color: "#74737B"})
 ```
 
 ## Breakdown by input state
 
 ```js
-successByInput(data, {color: "#f59e0b"})
+successByInput(data, {color: "#74737B"})
 ```

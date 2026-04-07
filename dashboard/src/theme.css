@@ -1,69 +1,161 @@
-/*
- * Condenser dashboard theme
- * CSS custom properties below are placeholders — update with ISC brand guidelines.
- */
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&family=Public+Sans:wght@300;400&family=Roboto+Mono:wght@400;500&display=swap');
+
+/* ==========================================================================
+   Insight Softmax brand tokens — Condenser dashboard
+   Source: ISC Style Sheet Mar 2025
+   ========================================================================== */
 
 :root {
-  --isc-blue: #1a5fa8;
-  --isc-blue-light: #4a90d9;
-  --isc-blue-dark: #0d3d6e;
-  --isc-accent: #00c2a8;
-  --isc-text: #1a1a2e;
-  --isc-muted: #6b7280;
-  --isc-bg: #ffffff;
-  --isc-surface: #f8fafc;
-  --isc-border: #e2e8f0;
+  /* Brand colors */
+  --isc-dark-blue:   #363D47;
+  --isc-gold:        #CC8A00;
+  --isc-rich-black:  #212721;
+  --isc-cool-gray:   #D9D8D6;
 
-  /* Observable Framework variable overrides */
-  --theme-foreground-focus: var(--isc-blue);
-  --theme-foreground-muted: var(--isc-muted);
+  /* Gold tints */
+  --isc-gold-80:     #D39D4E;
+  --isc-gold-60:     #DDB275;
+  --isc-gold-40:     #E7C89D;
+  --isc-gold-20:     #F1E1C9;
+
+  /* Dark blue tints */
+  --isc-dark-blue-80: #54565E;
+  --isc-dark-blue-60: #74737B;
+  --isc-dark-blue-40: #99979D;
+  --isc-dark-blue-20: #C4C3C6;
+
+  /* Cool gray tints */
+  --isc-gray-80:     #E0DFDD;
+  --isc-gray-60:     #E7E6E4;
+  --isc-gray-40:     #EEEDEB;
+  --isc-gray-20:     #F5F4F3;
+
+  /* Semantic aliases */
+  --isc-text:        var(--isc-rich-black);
+  --isc-muted:       var(--isc-dark-blue-60);
+  --isc-bg:          #ffffff;
+  --isc-surface:     var(--isc-gray-20);
+  --isc-border:      var(--isc-gray-60);
+
+  /* Observable Framework overrides */
+  --theme-foreground:         var(--isc-rich-black);
+  --theme-foreground-muted:   var(--isc-muted);
+  --theme-foreground-faint:   var(--isc-dark-blue-40);
+  --theme-foreground-focus:   var(--isc-dark-blue);
+  --theme-background:         var(--isc-bg);
+  --theme-background-alt:     var(--isc-surface);
 }
 
-/* Sidebar branding */
+/* ==========================================================================
+   Global typography
+   ========================================================================== */
+
+body {
+  font-family: 'Public Sans', sans-serif;
+  font-weight: 300;
+  color: var(--isc-text);
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 600;
+  color: var(--isc-dark-blue);
+}
+
+code, pre, .mono {
+  font-family: 'Roboto Mono', monospace;
+}
+
+/* ==========================================================================
+   Sidebar
+   ========================================================================== */
+
+#observablehq-sidebar {
+  background: var(--isc-dark-blue);
+}
+
+#observablehq-sidebar a,
+#observablehq-sidebar summary {
+  color: var(--isc-cool-gray);
+}
+
+#observablehq-sidebar a:hover,
+#observablehq-sidebar a[aria-current] {
+  color: var(--isc-gold);
+  background: rgba(255,255,255,0.07);
+}
+
 #observablehq-sidebar header {
+  font-family: 'Work Sans', sans-serif;
   font-weight: 700;
-  letter-spacing: 0.02em;
+  color: #ffffff;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
 }
 
-/* Platform status badges */
+/* ==========================================================================
+   Platform cards
+   ========================================================================== */
+
 .platform-card {
   border: 1px solid var(--isc-border);
-  border-radius: 8px;
+  border-radius: 6px;
   padding: 1.25rem 1.5rem;
   background: var(--isc-surface);
 }
 
 .platform-card .metric {
+  font-family: 'Work Sans', sans-serif;
   font-size: 2rem;
   font-weight: 700;
-  color: var(--isc-blue);
+  color: var(--isc-dark-blue);
   line-height: 1;
 }
 
 .platform-card .metric-label {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: var(--isc-muted);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-top: 0.25rem;
+  letter-spacing: 0.06em;
+  margin-top: 0.3rem;
 }
 
 .platform-card .platform-name {
+  font-family: 'Work Sans', sans-serif;
   font-size: 1rem;
   font-weight: 600;
   margin-bottom: 0.75rem;
+  color: var(--isc-dark-blue);
 }
+
+/* ==========================================================================
+   Status badges
+   ========================================================================== */
 
 .badge {
   display: inline-block;
-  font-size: 0.7rem;
-  font-weight: 600;
-  padding: 0.15rem 0.5rem;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 500;
+  padding: 0.15rem 0.55rem;
   border-radius: 999px;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
+  vertical-align: middle;
 }
 
-.badge-active { background: #d1fae5; color: #065f46; }
-.badge-paused { background: #fef3c7; color: #92400e; }
-.badge-historical { background: #e0e7ff; color: #3730a3; }
+.badge-active     { background: var(--isc-gold-20);  color: #7a4f00; }
+.badge-paused     { background: var(--isc-gray-60);   color: var(--isc-dark-blue-80); }
+.badge-historical { background: var(--isc-dark-blue-20); color: var(--isc-dark-blue); }
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+#observablehq-footer {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--isc-muted);
+  border-top: 1px solid var(--isc-border);
+}
