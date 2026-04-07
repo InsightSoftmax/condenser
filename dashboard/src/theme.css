@@ -1,0 +1,69 @@
+/*
+ * Condenser dashboard theme
+ * CSS custom properties below are placeholders — update with ISC brand guidelines.
+ */
+
+:root {
+  --isc-blue: #1a5fa8;
+  --isc-blue-light: #4a90d9;
+  --isc-blue-dark: #0d3d6e;
+  --isc-accent: #00c2a8;
+  --isc-text: #1a1a2e;
+  --isc-muted: #6b7280;
+  --isc-bg: #ffffff;
+  --isc-surface: #f8fafc;
+  --isc-border: #e2e8f0;
+
+  /* Observable Framework variable overrides */
+  --theme-foreground-focus: var(--isc-blue);
+  --theme-foreground-muted: var(--isc-muted);
+}
+
+/* Sidebar branding */
+#observablehq-sidebar header {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* Platform status badges */
+.platform-card {
+  border: 1px solid var(--isc-border);
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  background: var(--isc-surface);
+}
+
+.platform-card .metric {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--isc-blue);
+  line-height: 1;
+}
+
+.platform-card .metric-label {
+  font-size: 0.75rem;
+  color: var(--isc-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.25rem;
+}
+
+.platform-card .platform-name {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.badge-active { background: #d1fae5; color: #065f46; }
+.badge-paused { background: #fef3c7; color: #92400e; }
+.badge-historical { background: #e0e7ff; color: #3730a3; }

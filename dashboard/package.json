@@ -1,0 +1,13 @@
+{
+  "name": "condenser-dashboard",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "observable preview",
+    "build": "observable build",
+    "clean": "rm -rf src/.observablehq dist"
+  },
+  "dependencies": {
+    "@observablehq/framework": "^1.12.0"
+  }
+}

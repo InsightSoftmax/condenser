@@ -1,0 +1,1 @@
+{"title":"Condenser","config":{"root":"src"},"pages":[{"path":"/about","source":"/about.md","title":"Methodology"},{"path":"/aqt","source":"/aqt.md","title":"AQT ibex"},{"path":"/","source":"/index.md","title":"Overview"},{"path":"/ionq","source":"/ionq.md","title":"IonQ Aria-1"},{"path":"/rigetti","source":"/rigetti.md","title":"Rigetti Ankaa-3"}],"modules":[],"files":[]}
