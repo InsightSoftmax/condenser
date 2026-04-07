@@ -137,6 +137,7 @@ data/braket-raw/
 # Dashboard
 dashboard/node_modules/
 dashboard/.observablehq/cache/
+dashboard/src/.observablehq/
 dashboard/dist/
 
 # Archive duplicates / one-off exports
