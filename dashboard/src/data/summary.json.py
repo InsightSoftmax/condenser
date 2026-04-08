@@ -33,7 +33,7 @@ for platform, meta in PLATFORMS.items():
         })
         continue
 
-    df = pd.read_csv(csv_path, parse_dates=["run_date"])
+    df = pd.read_csv(csv_path, parse_dates=["run_date"], dtype={"input_bits": str})
     df = df[df["notes"].fillna("") == ""]
 
     if platform == "ionq":

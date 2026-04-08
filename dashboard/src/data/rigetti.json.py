@@ -15,7 +15,7 @@ if not csv_path.exists():
     json.dump({"runs": [], "circuits": [], "by_length": [], "by_input": []}, sys.stdout)
     sys.exit(0)
 
-df = pd.read_csv(csv_path, parse_dates=["run_date"])
+df = pd.read_csv(csv_path, parse_dates=["run_date"], dtype={"input_bits": str})
 
 # Exclude simulator/dry-run rows
 df = df[df["notes"].fillna("") == ""]
