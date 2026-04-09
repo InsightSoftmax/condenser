@@ -29,7 +29,7 @@ ${summary.map(p => html`
       <div class="metric">${(p.latest_success * 100).toFixed(1)}%</div>
       <div class="metric-label">Latest run success rate</div>
       <div style="margin-top: 0.75rem; font-size: 0.85rem; color: var(--isc-muted)">
-        ${p.n_runs} runs · ${p.n_circuits} circuits · last ${p.latest_run}
+        ${p.n_runs} runs · ${p.n_circuits} circuits<br>last run ${p.latest_run}
       </div>
     ` : html`<div style="color: var(--isc-muted); font-size: 0.9rem">No data yet</div>`}
   </div>
