@@ -76,10 +76,10 @@ Per-circuit completion time vs. success probability, colored by circuit depth. S
 temporalDriftScatter(data)
 ```
 
-## Recent runs
+## All runs
 
 ```js
-Inputs.table(data.runs.slice(-12).reverse(), {
+Inputs.table(data.runs.slice().reverse(), {
   columns: ["run_date", "mean_success", "std_success", "n_circuits"],
   header: {
     run_date: "Date",
