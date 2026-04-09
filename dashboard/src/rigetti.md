@@ -3,7 +3,7 @@ title: Rigetti Ankaa-3
 ---
 
 ```js
-import {successTimeSeries, successByLength, successByInput} from "./components/platformCharts.js";
+import {successTimeSeries, volatilityTimeSeries, boxByLength, successByLength, successByInput, temporalDriftScatter} from "./components/platformCharts.js";
 const data = await FileAttachment("data/rigetti.json").json();
 ```
 
@@ -38,20 +38,42 @@ Each point is the mean success rate across the 10 circuits sampled that week. Th
 successTimeSeries(data, {color: "#CC8A00"})
 ```
 
-## Breakdown by circuit depth
+## Consistency over time
 
-How does fidelity change as circuits get deeper? Each additional CNOT adds one more gate error opportunity.
+Within-run standard deviation per week. Lower is more consistent. Upward trend indicates growing variability.
+
+```js
+volatilityTimeSeries(data, {color: "#CC8A00"})
+```
+
+## Distribution by circuit depth
+
+Box plots show the full distribution — median (center line), interquartile range (box), and outliers (dots). Wider boxes and lower medians at higher depths indicate noise accumulation with circuit complexity.
+
+```js
+boxByLength(data, {color: "#CC8A00"})
+```
+
+## Mean success by circuit depth
 
 ```js
 successByLength(data, {color: "#CC8A00"})
 ```
 
-## Breakdown by input state
+## Mean success by input state
 
 Does the initial qubit state affect results? Ideally it shouldn't — deviations suggest state-preparation or readout asymmetry.
 
 ```js
 successByInput(data, {color: "#CC8A00"})
+```
+
+## Temporal drift within runs
+
+Per-circuit completion time vs. success probability, colored by circuit depth. Systematic patterns (e.g., quality worsening over time within a run) indicate hardware drift during execution.
+
+```js
+temporalDriftScatter(data)
 ```
 
 ## Recent runs

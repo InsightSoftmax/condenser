@@ -30,7 +30,7 @@ runs["run_date"] = runs["run_date"].dt.strftime("%Y-%m-%d")
 runs["mean_success"] = runs["mean_success"].round(4)
 runs["std_success"] = runs["std_success"].fillna(0).round(4)
 
-circuits = df[["run_date", "input_bits", "circuit_length", "success_probability"]].copy()
+circuits = df[["run_date", "input_bits", "circuit_length", "success_probability", "job_end_time"]].copy()
 circuits["run_date"] = circuits["run_date"].dt.strftime("%Y-%m-%d")
 
 by_length = (

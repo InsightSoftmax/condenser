@@ -1,49 +1,49 @@
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&family=Public+Sans:wght@300;400&family=Roboto+Mono:wght@400;500&display=swap');
 
 /* ==========================================================================
-   Insight Softmax brand tokens — Condenser dashboard
+   Insight Softmax brand tokens — Quantum Stability Monitor
    Source: ISC Style Sheet Mar 2025
    ========================================================================== */
 
 :root {
   /* Brand colors */
-  --isc-dark-blue:   #363D47;
-  --isc-gold:        #CC8A00;
-  --isc-rich-black:  #212721;
-  --isc-cool-gray:   #D9D8D6;
+  --isc-dark-blue:    #363D47;
+  --isc-gold:         #CC8A00;
+  --isc-rich-black:   #212721;
+  --isc-cool-gray:    #D9D8D6;
 
   /* Gold tints */
-  --isc-gold-80:     #D39D4E;
-  --isc-gold-60:     #DDB275;
-  --isc-gold-40:     #E7C89D;
-  --isc-gold-20:     #F1E1C9;
+  --isc-gold-80:      #D39D4E;
+  --isc-gold-60:      #DDB275;
+  --isc-gold-40:      #E7C89D;
+  --isc-gold-20:      #F1E1C9;
 
   /* Dark blue tints */
-  --isc-dark-blue-80: #54565E;
-  --isc-dark-blue-60: #74737B;
-  --isc-dark-blue-40: #99979D;
-  --isc-dark-blue-20: #C4C3C6;
+  --isc-blue-80:      #54565E;
+  --isc-blue-60:      #74737B;
+  --isc-blue-40:      #99979D;
+  --isc-blue-20:      #C4C3C6;
 
   /* Cool gray tints */
-  --isc-gray-80:     #E0DFDD;
-  --isc-gray-60:     #E7E6E4;
-  --isc-gray-40:     #EEEDEB;
-  --isc-gray-20:     #F5F4F3;
+  --isc-gray-80:      #E0DFDD;
+  --isc-gray-60:      #E7E6E4;
+  --isc-gray-40:      #EEEDEB;
+  --isc-gray-20:      #F5F4F3;
 
   /* Semantic aliases */
-  --isc-text:        var(--isc-rich-black);
-  --isc-muted:       var(--isc-dark-blue-60);
-  --isc-bg:          #ffffff;
-  --isc-surface:     var(--isc-gray-20);
-  --isc-border:      var(--isc-gray-60);
+  --isc-text:         var(--isc-rich-black);
+  --isc-muted:        var(--isc-blue-60);
+  --isc-bg:           #ffffff;
+  --isc-surface:      var(--isc-gray-20);
+  --isc-border:       var(--isc-gray-60);
 
   /* Observable Framework overrides */
-  --theme-foreground:         var(--isc-rich-black);
-  --theme-foreground-muted:   var(--isc-muted);
-  --theme-foreground-faint:   var(--isc-dark-blue-40);
-  --theme-foreground-focus:   var(--isc-dark-blue);
-  --theme-background:         var(--isc-bg);
-  --theme-background-alt:     var(--isc-surface);
+  --theme-foreground:        var(--isc-rich-black);
+  --theme-foreground-muted:  var(--isc-muted);
+  --theme-foreground-faint:  var(--isc-blue-40);
+  --theme-foreground-focus:  var(--isc-dark-blue);
+  --theme-background:        var(--isc-bg);
+  --theme-background-alt:    var(--isc-surface);
 }
 
 /* ==========================================================================
@@ -67,31 +67,39 @@ code, pre, .mono {
 }
 
 /* ==========================================================================
-   Sidebar
+   Sidebar — use dark text on Observable Framework's default light sidebar
    ========================================================================== */
 
 #observablehq-sidebar {
-  background: var(--isc-dark-blue);
+  border-right: 2px solid var(--isc-gold);
 }
 
 #observablehq-sidebar a,
-#observablehq-sidebar summary {
-  color: var(--isc-cool-gray);
+#observablehq-sidebar summary,
+#observablehq-sidebar p {
+  color: var(--isc-dark-blue);
+  font-family: 'Public Sans', sans-serif;
 }
 
-#observablehq-sidebar a:hover,
-#observablehq-sidebar a[aria-current] {
+#observablehq-sidebar a:hover {
   color: var(--isc-gold);
-  background: rgba(255,255,255,0.07);
+  background: var(--isc-gold-20);
 }
 
-#observablehq-sidebar header {
+#observablehq-sidebar a[aria-current="page"] {
+  color: var(--isc-rich-black);
+  background: var(--isc-gray-40);
+  font-weight: 600;
+  border-left: 3px solid var(--isc-gold);
+}
+
+#observablehq-sidebar header,
+#observablehq-sidebar h1,
+#observablehq-sidebar h2 {
   font-family: 'Work Sans', sans-serif;
   font-weight: 700;
-  color: #ffffff;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  font-size: 0.8rem;
+  color: var(--isc-rich-black);
+  letter-spacing: 0.02em;
 }
 
 /* ==========================================================================
@@ -146,8 +154,8 @@ code, pre, .mono {
 }
 
 .badge-active     { background: var(--isc-gold-20);  color: #7a4f00; }
-.badge-paused     { background: var(--isc-gray-60);   color: var(--isc-dark-blue-80); }
-.badge-historical { background: var(--isc-dark-blue-20); color: var(--isc-dark-blue); }
+.badge-paused     { background: var(--isc-gray-60);   color: var(--isc-blue-80); }
+.badge-historical { background: var(--isc-blue-20);   color: var(--isc-dark-blue); }
 
 /* ==========================================================================
    Footer

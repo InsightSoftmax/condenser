@@ -1,6 +1,6 @@
 export default {
   root: "src",
-  title: "Condenser",
+  title: "Quantum Stability Monitor",
   pages: [
     {name: "Overview", path: "/"},
     {
@@ -14,5 +14,5 @@ export default {
     {name: "Methodology", path: "/about"},
   ],
   head: '<link rel="stylesheet" href="/theme.css">',
-  footer: "Condenser — longitudinal quantum stability benchmarking by Insight Softmax",
+  footer: "Quantum Stability Monitor — longitudinal QPU benchmarking by Insight Softmax",
 };

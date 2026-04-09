@@ -3,7 +3,7 @@ title: IonQ Aria-1
 ---
 
 ```js
-import {successTimeSeries, successByLength, successByInput} from "./components/platformCharts.js";
+import {successTimeSeries, volatilityTimeSeries, boxByLength, successByLength, successByInput, temporalDriftScatter} from "./components/platformCharts.js";
 const data = await FileAttachment("data/ionq.json").json();
 ```
 
@@ -28,18 +28,64 @@ Trapped-ion QPU accessed via AWS Braket. Historical data from February–March 2
 
 ## Success probability over time
 
+Each point is the mean success rate across the circuits sampled that week. The shaded band shows ±1 standard deviation within the run.
+
 ```js
 successTimeSeries(data, {color: "#74737B"})
 ```
 
-## Breakdown by circuit depth
+## Consistency over time
+
+Within-run standard deviation per week. Lower is more consistent.
+
+```js
+volatilityTimeSeries(data, {color: "#74737B"})
+```
+
+## Distribution by circuit depth
+
+Box plots show the full distribution — median (center line), interquartile range (box), and outliers (dots). Wider boxes and lower medians at higher depths indicate noise accumulation with circuit complexity.
+
+```js
+boxByLength(data, {color: "#74737B"})
+```
+
+## Mean success by circuit depth
 
 ```js
 successByLength(data, {color: "#74737B"})
 ```
 
-## Breakdown by input state
+## Mean success by input state
+
+Does the initial qubit state affect results? Ideally it shouldn't — deviations suggest state-preparation or readout asymmetry.
 
 ```js
 successByInput(data, {color: "#74737B"})
+```
+
+## Temporal drift within runs
+
+Per-circuit completion time vs. success probability, colored by circuit depth. Systematic patterns indicate hardware drift during execution.
+
+```js
+temporalDriftScatter(data)
+```
+
+## All runs
+
+```js
+Inputs.table(data.runs.slice().reverse(), {
+  columns: ["run_date", "mean_success", "std_success", "n_circuits"],
+  header: {
+    run_date: "Date",
+    mean_success: "Mean success",
+    std_success: "Std dev",
+    n_circuits: "Circuits",
+  },
+  format: {
+    mean_success: d => `${(d * 100).toFixed(1)}%`,
+    std_success: d => `±${(d * 100).toFixed(1)}%`,
+  },
+})
 ```
