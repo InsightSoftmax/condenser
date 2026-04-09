@@ -39,13 +39,13 @@ ${summary.map(p => html`
 ## Success probability over time
 
 ```js
-// Sparkline per platform — one chart, all platforms overlaid
 const allRuns = summary.flatMap(p =>
   p.sparkline.map(d => ({...d, platform: p.platform, date: new Date(d.date)}))
 );
-
 const platformColors = {rigetti: "#CC8A00", aqt: "#363D47", ionq: "#74737B"};
+```
 
+```js
 Plot.plot({
   width: 900,
   height: 280,

@@ -111,6 +111,7 @@ code, pre, .mono {
   border-radius: 6px;
   padding: 1.25rem 1.5rem;
   background: var(--isc-surface);
+  min-height: 9rem;
 }
 
 .platform-card .metric {
