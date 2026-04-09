@@ -7,7 +7,7 @@ export default {
       name: "Platforms",
       pages: [
         {name: "Rigetti Ankaa-3", path: "/rigetti"},
-        {name: "AQT ibex", path: "/aqt"},
+        {name: "AQT IBEX", path: "/aqt"},
         {name: "IonQ Aria-1", path: "/ionq"},
       ]
     },

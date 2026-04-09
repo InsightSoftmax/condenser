@@ -11,7 +11,7 @@ repo_root = Path(__file__).parents[3]
 
 PLATFORMS = {
     "rigetti": {"backend": "Ankaa-3", "status": "active"},
-    "aqt":     {"backend": "ibex",    "status": "active"},
+    "aqt":     {"backend": "IBEX",    "status": "active"},
     "ionq":    {"backend": "Aria-1",  "status": "historical"},
 }
 
