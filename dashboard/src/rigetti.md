@@ -79,8 +79,7 @@ temporalDriftScatter(data)
 ## Recent runs
 
 ```js
-const recent = data.runs.slice(-12).reverse();
-Inputs.table(recent, {
+Inputs.table(data.runs.slice(-12).reverse(), {
   columns: ["run_date", "mean_success", "std_success", "n_circuits"],
   header: {
     run_date: "Date",
