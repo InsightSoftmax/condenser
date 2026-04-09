@@ -10,9 +10,9 @@ import pandas as pd
 repo_root = Path(__file__).parents[3]
 
 PLATFORMS = {
-    "rigetti": {"backend": "Ankaa-3", "status": "active"},
-    "aqt":     {"backend": "IBEX",    "status": "active"},
-    "ionq":    {"backend": "Aria-1",  "status": "historical"},
+    "rigetti": {"backend": "Ankaa-3", "status": "active",     "cost_per_run_usd": 3.90},
+    "aqt":     {"backend": "IBEX",    "status": "active",     "cost_per_run_usd": 25.07},
+    "ionq":    {"backend": "Aria-1",  "status": "historical", "cost_per_run_usd": 33.00},
 }
 
 summary = []
@@ -24,6 +24,7 @@ for platform, meta in PLATFORMS.items():
             "platform": platform,
             "backend": meta["backend"],
             "status": meta["status"],
+            "cost_per_run_usd": meta["cost_per_run_usd"],
             "latest_run": None,
             "latest_success": None,
             "overall_mean": None,
@@ -72,6 +73,7 @@ for platform, meta in PLATFORMS.items():
         "platform": platform,
         "backend": meta["backend"],
         "status": meta["status"],
+        "cost_per_run_usd": meta["cost_per_run_usd"],
         "latest_run": latest_run.strftime("%Y-%m-%d"),
         "latest_success": round(float(latest_success), 4),
         "overall_mean": round(float(df["success_probability"].mean()), 4),

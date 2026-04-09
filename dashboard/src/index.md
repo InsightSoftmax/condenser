@@ -68,6 +68,32 @@ Plot.plot({
 })
 ```
 
+## Cost per benchmark run
+
+10 circuits × 100 shots. Pricing as of April 2026.
+
+```js
+Inputs.table(summary.map(p => ({
+  platform: p.platform === "rigetti" ? "Rigetti Ankaa-3" :
+            p.platform === "aqt"     ? "AQT IBEX" :
+                                       "IonQ Aria-1",
+  access: p.platform === "rigetti" ? "AWS Braket" :
+          p.platform === "aqt"     ? "qiskit-aqt-provider (direct)" :
+                                     "AWS Braket (historical)",
+  cost_per_run: p.cost_per_run_usd,
+  annual_52: p.cost_per_run_usd * 52,
+})), {
+  columns: ["platform", "access", "cost_per_run", "annual_52"],
+  header: {platform: "Platform", access: "Access", cost_per_run: "Per run", annual_52: "Annual (52×)"},
+  format: {
+    cost_per_run: d => `$${d.toFixed(2)}`,
+    annual_52: d => `$${d.toFixed(0)}`,
+  },
+})
+```
+
+*AQT pricing from quotation Q2511001 (Nov 2025), converted at EUR/USD ≈ 1.09. IonQ figure is historical (Aria-1 at $0.03/shot); current Forte would be ~$83/run.*
+
 ---
 
 *Benchmarks run weekly. Each run samples 10 circuits from a family of 24 (6 circuit depths × 4 input states), 100 shots each. [Learn more about the methodology.](/about)*
