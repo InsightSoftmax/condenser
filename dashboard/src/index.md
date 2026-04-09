@@ -12,7 +12,7 @@ const summary = await FileAttachment("data/summary.json").json();
 
 ```js
 // Platform cards
-const statusLabel = {active: "Active", historical: "Historical (paused)", paused: "Paused"};
+const statusLabel = {active: "Active", historical: "Paused", paused: "Paused"};
 const statusClass = {active: "badge-active", historical: "badge-historical", paused: "badge-paused"};
 ```
 
