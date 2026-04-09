@@ -59,6 +59,33 @@ def test_qiskit_circuit_not_none():
         assert build_circuit_qiskit(*key) is not None
 
 
+# --- Circuit gate counts ---
+
+def test_qiskit_circuit_cnot_count_matches_length():
+    """Qiskit circuit must contain exactly circuit_length CX (CNOT) gates."""
+    for input_bits, length in itertools.product(POSSIBLE_INPUT_BITS, POSSIBLE_CIRCUIT_LENGTHS):
+        circuit = build_circuit_qiskit(input_bits, length)
+        cx_count = sum(1 for g in circuit.data if g.operation.name == "cx")
+        assert cx_count == length, f"{input_bits=} {length=}: expected {length} CX, got {cx_count}"
+
+
+def test_braket_circuit_cnot_count_matches_length():
+    """Braket circuit must contain exactly circuit_length CNot gates."""
+    for input_bits, length in itertools.product(POSSIBLE_INPUT_BITS, POSSIBLE_CIRCUIT_LENGTHS):
+        circuit = build_circuit_braket(input_bits, length)
+        cnot_count = sum(1 for i in circuit.instructions if i.operator.name == "CNot")
+        assert cnot_count == length, f"{input_bits=} {length=}: expected {length} CNot, got {cnot_count}"
+
+
+def test_qiskit_circuit_input_state_x_gates():
+    """Qiskit circuit must have an X gate on qubit k for each '1' bit at position k."""
+    for input_bits in POSSIBLE_INPUT_BITS:
+        circuit = build_circuit_qiskit(input_bits, 1)
+        x_targets = {g.qubits[0]._index for g in circuit.data if g.operation.name == "x"}
+        expected = {i for i, b in enumerate(input_bits) if b == "1"}
+        assert x_targets == expected, f"{input_bits=}: expected X on qubits {expected}, got {x_targets}"
+
+
 # --- Sampling ---
 
 def test_sample_circuits_count():
