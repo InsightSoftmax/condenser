@@ -73,4 +73,4 @@ archive/       prior exploratory notebooks
 
 ---
 
-*For setup and contribution details, see the [contributing guide](CONTRIBUTING.md) (coming soon).*
+*To run the benchmarks yourself, see [infra/README.md](infra/README.md) for AWS/IAM setup and [dashboard/README.md](dashboard/README.md) for the dashboard.*
