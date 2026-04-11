@@ -66,7 +66,7 @@ class TestIonQSimulator:
     def test_submit_returns_pending_dict(self):
         from benchmarks import ionq_braket
         pending = ionq_braket.submit(n_circuits=N_CIRCUITS, shots=SHOTS, dry_run=True)
-        assert pending["platform"] == "ionq"
+        assert pending["platform"] == "ionq_braket"
         assert pending["backend"] == "LocalSimulator"
         assert pending["dry_run"] is True
         assert len(pending["jobs"]) == N_CIRCUITS

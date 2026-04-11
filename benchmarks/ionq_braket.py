@@ -1,9 +1,13 @@
 """
-IonQ benchmark via AWS Braket.
+IonQ Forte-1 benchmark via AWS Braket.
 
 Authentication: OIDC-assumed IAM role (set up in infra/). No explicit credentials needed.
 SDK: amazon-braket-sdk
-Backend: IonQ Aria-1
+Backend: IonQ Forte-1 (us-east-1)
+Results bucket: BRAKET_RESULTS_BUCKET_EAST (us-east-1) — distinct from the Rigetti/us-west-1 bucket.
+
+Uses explicit us-east-1 boto3 sessions throughout so this module works correctly even when
+the GitHub Actions workflow configures credentials with a different default region.
 
 IonQ queues can be measured in days. This module uses a two-stage approach:
   - submit()  → submit jobs, return a pending dict to be saved to disk
@@ -17,20 +21,25 @@ from datetime import UTC, date, datetime
 
 from benchmarks.circuits import REFERENCE_TABLE, build_circuit_braket, sample_circuits
 
-PLATFORM = "ionq"
-BACKEND_ARN = "arn:aws:braket:us-east-1::device/qpu/ionq/Aria-1"
-SV1_ARN = "arn:aws:braket:::device/quantum-simulator/amazon/sv1"
-
+PLATFORM = "ionq_braket"
+BACKEND_ARN = "arn:aws:braket:us-east-1::device/qpu/ionq/Forte-1"
+AWS_REGION = "us-east-1"
 S3_PREFIX = "condenser-results"
 
 _TERMINAL_STATES = {"COMPLETED", "FAILED", "CANCELLED"}
 
 
 def _s3_folder() -> tuple[str, str]:
-    bucket = os.environ.get("BRAKET_RESULTS_BUCKET")
+    bucket = os.environ.get("BRAKET_RESULTS_BUCKET_EAST")
     if not bucket:
-        raise RuntimeError("BRAKET_RESULTS_BUCKET environment variable is not set")
+        raise RuntimeError("BRAKET_RESULTS_BUCKET_EAST environment variable is not set")
     return (bucket, S3_PREFIX)
+
+
+def _aws_session():
+    import boto3
+    from braket.aws import AwsSession
+    return AwsSession(boto3.Session(region_name=AWS_REGION))
 
 
 def submit(
@@ -38,8 +47,14 @@ def submit(
 ) -> dict:
     """
     Submit circuits and return a pending dict.
-    The caller is responsible for saving this to pending/ionq/<date>.json.
+    The caller is responsible for saving this to pending/ionq_braket/<date>.json.
     """
+    if use_simulator:
+        raise RuntimeError(
+            "Cloud simulator not supported for ionq_braket (SV1 blocked by org SCP). "
+            "Use --dry-run for local simulation."
+        )
+
     from braket.aws import AwsDevice
     from braket.devices import LocalSimulator
 
@@ -49,14 +64,8 @@ def submit(
         device = LocalSimulator()
         backend = "LocalSimulator"
         s3_folder = ("dry-run-bucket", S3_PREFIX)
-    elif use_simulator:
-        import boto3
-        from braket.aws import AwsSession
-        device = AwsDevice(SV1_ARN, aws_session=AwsSession(boto3.Session(region_name="us-east-1")))
-        backend = "SV1"
-        s3_folder = _s3_folder()
     else:
-        device = AwsDevice(BACKEND_ARN)
+        device = AwsDevice(BACKEND_ARN, aws_session=_aws_session())
         backend = device.name
         s3_folder = _s3_folder()
 
@@ -77,7 +86,6 @@ def submit(
         "shots": shots,
         "submitted_at": datetime.now(UTC).isoformat(),
         "dry_run": dry_run,
-        "use_simulator": use_simulator,
         "jobs": [
             {"job_id": task.id, "input_bits": input_bits, "circuit_length": circuit_length}
             for task, (input_bits, circuit_length) in zip(tasks, sampled_keys)
@@ -112,17 +120,9 @@ def _collect_tasks(jobs_meta: list, tasks: list, pending: dict) -> list[dict]:
             "job_start_time": getattr(metadata, "createdAt", None),
             "job_end_time": getattr(metadata, "endedAt", None),
             "sdk_version": pending["sdk_version"],
-            "notes": _notes(pending),
+            "notes": "dry_run",
         })
     return results
-
-
-def _notes(pending: dict) -> str:
-    if pending.get("dry_run"):
-        return "dry_run"
-    if pending.get("use_simulator"):
-        return "simulator"
-    return ""
 
 
 def collect(pending: dict) -> list[dict] | None:
@@ -138,8 +138,9 @@ def collect(pending: dict) -> list[dict] | None:
 
     from braket.aws import AwsQuantumTask
 
+    aws_session = _aws_session()
     jobs = pending["jobs"]
-    tasks = [AwsQuantumTask(job["job_id"]) for job in jobs]
+    tasks = [AwsQuantumTask(job["job_id"], aws_session=aws_session) for job in jobs]
     states = [task.state() for task in tasks]
 
     failed = [job["job_id"] for job, state in zip(jobs, states) if state in ("FAILED", "CANCELLED")]
@@ -175,6 +176,6 @@ def collect(pending: dict) -> list[dict] | None:
             "job_start_time": getattr(metadata, "createdAt", None),
             "job_end_time": getattr(metadata, "endedAt", None),
             "sdk_version": pending["sdk_version"],
-            "notes": _notes(pending),
+            "notes": "",
         })
     return results
