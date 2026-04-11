@@ -25,8 +25,8 @@
       "Resource": [
         "arn:aws:s3:::amazon-braket-isc-condenser-west",
         "arn:aws:s3:::amazon-braket-isc-condenser-west/*",
-        "arn:aws:s3:::amazon-braket-isc-condenser",
-        "arn:aws:s3:::amazon-braket-isc-condenser/*"
+        "arn:aws:s3:::amazon-braket-isc-condenser-east",
+        "arn:aws:s3:::amazon-braket-isc-condenser-east/*"
       ]
     }
   ]
