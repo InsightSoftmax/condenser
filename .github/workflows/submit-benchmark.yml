@@ -2,8 +2,10 @@ name: Submit Benchmark
 
 on:
   schedule:
-    # Every Monday at 12:00 UTC
-    - cron: "0 12 * * 1"
+    # Every Tuesday at 10:30 UTC (11:30 CET / 12:30 CEST) — within AQT hardware access window.
+    # Must not coincide with collect-results.yml, which runs on the hour every 6h.
+    # Keep this at a :30 offset so both workflows never push to main simultaneously.
+    - cron: "30 10 * * 2"
   workflow_dispatch:
     inputs:
       platform:

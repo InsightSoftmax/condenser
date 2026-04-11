@@ -2,8 +2,9 @@ name: Collect Results
 
 on:
   schedule:
-    # Every 6 hours — keeps checking until all pending jobs complete,
+    # Every 6 hours on the hour — keeps checking until all pending jobs complete,
     # regardless of how long the queue is (IonQ can be days).
+    # Must not coincide with submit-benchmark.yml; keep that workflow at a :30 offset.
     - cron: "0 */6 * * *"
   workflow_dispatch: {}
 
