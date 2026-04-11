@@ -73,16 +73,23 @@ Plot.plot({
 10 circuits × 100 shots. Pricing as of April 2026.
 
 ```js
-Inputs.table(summary.map(p => ({
-  platform: p.platform === "rigetti" ? "Rigetti Ankaa-3" :
-            p.platform === "aqt"     ? "AQT IBEX" :
-                                       "IonQ Aria-1",
-  access: p.platform === "rigetti" ? "AWS Braket" :
-          p.platform === "aqt"     ? "qiskit-aqt-provider (direct)" :
-                                     "AWS Braket (historical)",
-  cost_per_run: p.cost_per_run_usd,
-  annual_52: p.cost_per_run_usd * 52,
-})), {
+const costRows = [
+  ...summary.map(p => ({
+    platform: p.platform === "rigetti" ? "Rigetti Ankaa-3" :
+              p.platform === "aqt"     ? "AQT IBEX" :
+                                         "IonQ Aria-1",
+    access: p.platform === "rigetti" ? "AWS Braket" :
+            p.platform === "aqt"     ? "qiskit-aqt-provider (direct)" :
+                                       "AWS Braket (historical)",
+    cost_per_run: p.cost_per_run_usd,
+    annual_52: p.cost_per_run_usd * 52,
+  })),
+  {platform: "AQT IBEX (alt)", access: "AWS Braket", cost_per_run: 26.50, annual_52: 26.50 * 52},
+];
+```
+
+```js
+Inputs.table(costRows, {
   columns: ["platform", "access", "cost_per_run", "annual_52"],
   header: {platform: "Platform", access: "Access", cost_per_run: "Per run", annual_52: "Annual (52×)"},
   format: {
@@ -92,7 +99,7 @@ Inputs.table(summary.map(p => ({
 })
 ```
 
-*AQT pricing from quotation Q2511001 (Nov 2025), converted at EUR/USD ≈ 1.09. IonQ figure is historical (Aria-1 at $0.03/shot); current Forte would be ~$83/run.*
+*AQT pricing from quotation Q2511001 (Nov 2025), converted at EUR/USD ≈ 1.09. "AQT IBEX (alt)" is the AWS Braket-managed access path — within ~5% of direct, slightly more expensive. IonQ figure is historical (Aria-1 at $0.03/shot); current Forte would be ~$83/run.*
 
 ---
 
