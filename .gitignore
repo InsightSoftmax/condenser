@@ -134,6 +134,13 @@ data/braket-raw/
 # macOS
 .DS_Store
 
+# Dashboard
+dashboard/*.pdf
+dashboard/node_modules/
+dashboard/.observablehq/cache/
+dashboard/src/.observablehq/
+dashboard/dist/
+
 # Archive duplicates / one-off exports
 archive/claire_S3_results.ipynb
 archive/claire_S3_results (1).ipynb
