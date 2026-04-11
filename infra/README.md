@@ -34,6 +34,20 @@ before running Step 3.
 
 ---
 
+## GitHub Environment setup
+
+Do this first — step 4 below requires the `quantum-production` environment to already exist.
+
+In the repo settings (Settings → Environments → New environment):
+
+1. Name: `quantum-production`
+2. **Deployment branches**: restrict to `main` only — this prevents fork PRs from ever
+   accessing secrets in this environment
+3. **Required reviewers** (optional but recommended for manual runs): add yourself so
+   `workflow_dispatch` triggers require human approval before spending QPU credits
+
+---
+
 ## Steps
 
 ### 1. Add GitHub as an OIDC provider in AWS (once per account)
@@ -89,14 +103,3 @@ GitHub repo → Settings → Variables → Actions → New repository variable
 This is the single source of truth for the bucket name in the workflow. The IAM policy
 (step 3 above) must reference the same bucket, but it is only edited once at setup time.
 
----
-
-## GitHub Environment setup
-
-In the repo settings (Settings → Environments → New environment):
-
-1. Name: `quantum-production`
-2. **Deployment branches**: restrict to `main` only — this prevents fork PRs from ever
-   accessing secrets in this environment
-3. **Required reviewers** (optional but recommended for manual runs): add yourself so
-   `workflow_dispatch` triggers require human approval before spending QPU credits
