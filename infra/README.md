@@ -29,7 +29,7 @@ aws s3api create-bucket \
 Do **not** rename or touch any existing Braket result prefixes — historical notebooks may still
 write there. The new bucket is only for automated condenser runs going forward.
 
-Edit `iam-policy.json` to replace `YOUR_BRAKET_RESULTS_BUCKET` with your chosen bucket name
+Edit `iam-policy.json` to replace `YOUR_BRAKET_RESULTS_BUCKET_WEST` with your chosen bucket name
 before running Step 3.
 
 ---
@@ -74,7 +74,7 @@ aws iam create-role \
 
 ### 3. Attach the permissions policy
 
-Edit `iam-policy.json` — replace `YOUR_BRAKET_RESULTS_BUCKET` with the S3 bucket name.
+Edit `iam-policy.json` — replace `YOUR_BRAKET_RESULTS_BUCKET_WEST` with the S3 bucket name.
 
 ```bash
 aws iam put-role-policy \
@@ -97,7 +97,7 @@ Go to: GitHub repo → Settings → Environments → `quantum-production` → Ad
 
 This is *not* a secret — bucket names aren't sensitive. Go to:
 GitHub repo → Settings → Variables → Actions → New repository variable
-- Name: `BRAKET_RESULTS_BUCKET`
+- Name: `BRAKET_RESULTS_BUCKET_WEST`
 - Value: your S3 bucket name
 
 This is the single source of truth for the bucket name in the workflow. The IAM policy
