@@ -54,6 +54,7 @@ jobs:
         env:
           BRAKET_RESULTS_BUCKET: ${{ vars.BRAKET_RESULTS_BUCKET }}
           AQT_API_KEY: ${{ secrets.AQT_API_KEY }}
+          IONQ_API_KEY: ${{ secrets.IONQ_API_KEY }}
         run: uv run python scripts/collect_results.py
 
       - name: Commit results
