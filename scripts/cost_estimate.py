@@ -38,16 +38,39 @@ BRAKET_PRICING: dict[str, dict] = {
         "access":         "AWS Braket",
         "status":         "active",
         "module":         "rigetti_braket",
+        "runs_per_year":  52,   # weekly
     },
-    "IonQ Forte": {
+    "IQM Garnet": {
+        "per_task_usd":   0.30,
+        "per_shot_usd":   0.00145,
+        "region":         "eu-north-1",
+        "access":         "AWS Braket",
+        "status":         "active",
+        "module":         "iqm_braket",
+        "runs_per_year":  52,   # weekly
+    },
+    "IonQ Forte-1 (via Braket)": {
         "per_task_usd":   0.30,
         "per_shot_usd":   0.08000,
         "region":         "us-east-1",
         "access":         "AWS Braket",
-        "status":         "paused (budget)",
+        "status":         "active",
         "module":         "ionq_braket",
+        "runs_per_year":  12,   # monthly (15th of month)
         "notes":          "Historical data used IonQ Aria-1 (~$0.03/shot) and Harmony."
-                          " Forte is the current Braket-listed IonQ device.",
+                          " Forte-1 is the current Braket-listed IonQ device.",
+    },
+    "IonQ Forte-1 (direct REST API)": {
+        "per_task_usd":   0.00,    # no per-task fee; IonQ charges per gate + per shot
+        "per_shot_usd":   0.00975,
+        "region":         "IonQ cloud (direct)",
+        "access":         "ionq_direct (REST API, IONQ_API_KEY)",
+        "status":         "active",
+        "module":         "ionq_direct",
+        "runs_per_year":  12,   # monthly (1st of month)
+        "notes":          "IonQ also charges per native gate (~$0.00022/gate × qubit count)."
+                          " Gate cost for our 2-qubit circuits is small relative to shot cost."
+                          " Verify at https://ionq.com/pricing.",
     },
     "AQT IBEX-Q1 (direct, qiskit-aqt-provider)": {
         "per_task_usd":   0.30 * EUR_TO_USD,   # 0.30 EUR/circuit
@@ -56,6 +79,7 @@ BRAKET_PRICING: dict[str, dict] = {
         "access":         "qiskit-aqt-provider",
         "status":         "active",
         "module":         "aqt_qiskit",
+        "runs_per_year":  52,   # weekly
         "notes":          "Source: quotation Q2511001 (2025-11-04). EUR/USD ≈ 1.09."
                           " Hardware backend name must be confirmed with Arash"
                           " (run provider.backends() to see options).",
@@ -78,6 +102,7 @@ BRAKET_PRICING: dict[str, dict] = {
         "region":         "eu-north-1",
         "access":         "AWS Braket",
         "status":         "alternative",
+        "runs_per_year":  52,
         "notes":          "Braket access available as an alternative to direct."
                           " Pricing is within ~5% of direct (direct is slightly cheaper).",
     },
@@ -125,7 +150,9 @@ def main(argv: list[str] | None = None) -> None:
         task_cost, shot_cost, total = cost_per_run(
             p["per_task_usd"], p["per_shot_usd"], n_circuits, shots
         )
-        annual = total * weeks
+        runs = p.get("runs_per_year", weeks)
+        annual = total * runs
+        freq = "weekly" if runs == 52 else f"monthly ({runs}/yr)" if runs == 12 else f"{runs}/yr"
 
         print(f"  {name}  [{p['status']}]")
         print(f"    Access      : {p['access']}  ({p['region']})")
@@ -133,7 +160,7 @@ def main(argv: list[str] | None = None) -> None:
               f"per shot: {format_usd(p['per_shot_usd'])}")
         print(f"    Per run     : {format_usd(total)}  "
               f"({format_usd(task_cost)} tasks + {format_usd(shot_cost)} shots)")
-        print(f"    Annual      : {format_usd(annual)}  ({weeks} runs)")
+        print(f"    Annual      : {format_usd(annual)}  ({freq})")
         if p.get("notes"):
             print(f"    Note        : {p['notes']}")
         print()
@@ -143,7 +170,8 @@ def main(argv: list[str] | None = None) -> None:
               if v["status"] == "active"}
     if active:
         total_annual = sum(
-            cost_per_run(p["per_task_usd"], p["per_shot_usd"], n_circuits, shots)[2] * weeks
+            cost_per_run(p["per_task_usd"], p["per_shot_usd"], n_circuits, shots)[2]
+            * p.get("runs_per_year", weeks)
             for p in active.values()
         )
         print("-" * 65)
