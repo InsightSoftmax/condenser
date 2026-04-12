@@ -61,16 +61,16 @@ BRAKET_PRICING: dict[str, dict] = {
                           " Forte-1 is the current Braket-listed IonQ device.",
     },
     "IonQ Forte-1 (direct REST API)": {
-        "per_task_usd":   0.00,    # no per-task fee; IonQ charges per gate + per shot
-        "per_shot_usd":   0.00975,
+        "per_task_usd":   25.88,   # observed: $7,762 / 300 circuits from Claire's account (2025)
+        "per_shot_usd":   0.00,    # gate + shot charges rolled into per_task_usd observation
         "region":         "IonQ cloud (direct)",
         "access":         "ionq_direct (REST API, IONQ_API_KEY)",
         "status":         "active",
         "module":         "ionq_direct",
         "runs_per_year":  12,   # monthly (1st of month)
-        "notes":          "IonQ also charges per native gate (~$0.00022/gate × qubit count)."
-                          " Gate cost for our 2-qubit circuits is small relative to shot cost."
-                          " Verify at https://ionq.com/pricing.",
+        "notes":          "Cost derived from observed billing: $7,762 for 300 circuits."
+                          " IonQ charges per gate + per shot; exact rate not published."
+                          " Verify current pricing at https://ionq.com/pricing.",
     },
     "AQT IBEX-Q1 (direct, qiskit-aqt-provider)": {
         "per_task_usd":   0.30 * EUR_TO_USD,   # 0.30 EUR/circuit
