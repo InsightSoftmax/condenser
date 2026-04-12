@@ -85,6 +85,7 @@ Per run: sample **10 circuits** stratified across lengths/states, **100 shots** 
 | IonQ Aria-1 | `ionq_braket` | AWS Braket (OIDC/IAM) | Paused (budget) |
 | IonQ Forte-1 (direct) | `ionq_direct` | IonQ REST API (`IONQ_API_KEY`) | Active — automated monthly (1st of month 10:30 UTC) via submit-benchmark-ionq.yml |
 | IonQ Forte-1 (Braket) | `ionq_braket` | AWS Braket (OIDC/IAM, us-east-1); `BRAKET_RESULTS_BUCKET_EAST` | Active — automated monthly (15th of month 10:30 UTC) via submit-benchmark-ionq-braket.yml |
+| IQM Garnet | `iqm_braket` | AWS Braket (OIDC/IAM, eu-north-1); `BRAKET_RESULTS_BUCKET_EU` | Active — automated weekly (Wednesdays 10:30 UTC) via submit-benchmark-iqm.yml |
 | IBM Brisbane | `ibm_qiskit` | Qiskit Runtime (`IBM_QUANTUM_TOKEN`) | Active — automated monthly; historical data Feb–Jun 2025 (Sami); org account is `Qiskit Runtime - Standard` (pay-as-you-go) |
 
 ## Project Structure

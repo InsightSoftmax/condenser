@@ -27,6 +27,7 @@ ENABLED_PLATFORMS = [
     "ibm_qiskit",      # active: IBM Brisbane via Qiskit Runtime; requires IBM_QUANTUM_TOKEN secret
     # "ionq_direct",   # active: IonQ Forte-1 via REST API — runs monthly via submit-benchmark-ionq.yml
     # "ionq_braket",   # active: IonQ Forte-1 via AWS Braket — runs monthly via submit-benchmark-ionq-braket.yml
+    # "iqm_braket",    # active: IQM Garnet via AWS Braket — runs weekly via submit-benchmark-iqm.yml
 ]
 
 
