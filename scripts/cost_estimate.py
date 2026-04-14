@@ -60,6 +60,18 @@ BRAKET_PRICING: dict[str, dict] = {
                           " Hardware backend name must be confirmed with Arash"
                           " (run provider.backends() to see options).",
     },
+    "IBM Brisbane (ibm_brisbane)": {
+        "per_task_usd":   0.00,
+        "per_shot_usd":   0.00,
+        "region":         "IBM Cloud (US)",
+        "access":         "Qiskit Runtime (ibm_quantum channel)",
+        "status":         "active",
+        "module":         "ibm_qiskit",
+        "notes":          "IBM Standard Plan charges by QPU execution time (seconds),"
+                          " not per-task/shot. Estimated ~$0.10–0.50/run for 10 circuits."
+                          " See https://quantum.ibm.com/services/programs/sampler for"
+                          " current pricing. Requires IBM_QUANTUM_TOKEN secret.",
+    },
     "AQT IBEX-Q1 (via Braket)": {
         "per_task_usd":   0.30,
         "per_shot_usd":   0.02350,

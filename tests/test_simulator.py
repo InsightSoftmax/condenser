@@ -85,6 +85,30 @@ class TestIonQSimulator:
         _validate_results(results, N_CIRCUITS, SHOTS)
 
 
+class TestIBMSimulator:
+    def test_submit_returns_pending_dict(self):
+        from benchmarks import ibm_qiskit
+        pending = ibm_qiskit.submit(n_circuits=N_CIRCUITS, shots=SHOTS, dry_run=True)
+        assert pending["platform"] == "ibm"
+        assert pending["backend"] == "StatevectorSimulator"
+        assert pending["dry_run"] is True
+        assert len(pending["jobs"]) == N_CIRCUITS
+
+    def test_collect_returns_results(self):
+        from benchmarks import ibm_qiskit
+        pending = ibm_qiskit.submit(n_circuits=N_CIRCUITS, shots=SHOTS, dry_run=True)
+        results = ibm_qiskit.collect(pending)
+        _validate_results(results, N_CIRCUITS, SHOTS)
+
+    def test_full_pipeline_via_json_round_trip(self):
+        """Pending dict must survive JSON serialization (as it does when saved to disk)."""
+        from benchmarks import ibm_qiskit
+        pending = ibm_qiskit.submit(n_circuits=N_CIRCUITS, shots=SHOTS, dry_run=True)
+        pending_reloaded = json.loads(json.dumps(pending, default=str))
+        results = ibm_qiskit.collect(pending_reloaded)
+        _validate_results(results, N_CIRCUITS, SHOTS)
+
+
 class TestAQTSimulator:
     def test_submit_returns_pending_dict(self):
         from benchmarks import aqt_qiskit
