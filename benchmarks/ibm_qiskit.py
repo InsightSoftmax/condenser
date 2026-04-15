@@ -1,7 +1,11 @@
 """
 IBM Quantum benchmark via Qiskit Runtime SamplerV2.
 
-Authentication: IBM_QUANTUM_TOKEN environment variable.
+Authentication (IBM Cloud channel):
+  IBM_QUANTUM_TOKEN    — IBM Cloud API key
+  IBM_QUANTUM_INSTANCE — service instance CRN
+    (crn:v1:bluemix:public:quantum-computing:us-east:a/<account>:<instance>::)
+
 Backend: IBM_BACKEND environment variable (default: ibm_brisbane).
 SDK: qiskit, qiskit-ibm-runtime
 
@@ -60,7 +64,8 @@ def submit(
         from qiskit_ibm_runtime import SamplerV2 as Sampler
 
         token = os.environ.get("IBM_QUANTUM_TOKEN", "")
-        service = QiskitRuntimeService(channel="ibm_quantum", token=token)
+        instance = os.environ.get("IBM_QUANTUM_INSTANCE", "")
+        service = QiskitRuntimeService(channel="ibm_cloud", token=token, instance=instance)
         backend_label = _backend_name()
         backend = service.backend(backend_label)
         transpiled = transpile(circuits, backend=backend, optimization_level=1)
@@ -153,7 +158,8 @@ def collect(pending: dict) -> list[dict] | None:
     from qiskit_ibm_runtime import QiskitRuntimeService
 
     token = os.environ.get("IBM_QUANTUM_TOKEN", "")
-    service = QiskitRuntimeService(channel="ibm_quantum", token=token)
+    instance = os.environ.get("IBM_QUANTUM_INSTANCE", "")
+    service = QiskitRuntimeService(channel="ibm_cloud", token=token, instance=instance)
 
     retrieved = [service.job(j["job_id"]) for j in pending["jobs"]]
     statuses = [str(job.status()) for job in retrieved]
