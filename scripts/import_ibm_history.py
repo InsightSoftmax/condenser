@@ -14,7 +14,7 @@ from pathlib import Path
 
 import pandas as pd
 
-ARCHIVE_DIR = Path(__file__).parent.parent / "archive" / "sami_code"
+ARCHIVE_DIR = Path(__file__).parent.parent / "archive" / "ibm"
 OUT_PATH = Path(__file__).parent.parent / "data" / "ibm" / "results.csv"
 
 PLATFORM = "ibm"
