@@ -3,7 +3,7 @@ title: IBM Brisbane
 ---
 
 ```js
-import {successTimeSeries, volatilityTimeSeries, boxByLength, successByLength, successByInput, temporalDriftScatter} from "./components/platformCharts.js";
+import {successTimeSeries, volatilityTimeSeries, boxByLength, successByLength, successByInput, successSurface3D, temporalDriftScatter} from "./components/platformCharts.js";
 const data = await FileAttachment("data/ibm.json").json();
 ```
 
@@ -30,31 +30,41 @@ Superconducting QPU (Eagle r3, 127 qubits) accessed via Qiskit Runtime. Historic
   </div>
 </div>
 
-## Success probability over time
-
-Success probability for a given circuit is the fraction of shots that produced the correct output — where "correct" is the deterministic, noise-free answer computed by classical simulation. Each point is the mean across all circuits sampled in that run. The shaded band shows ±1 standard deviation within the run.
-
-```js
-successTimeSeries(data, {color: "#1192E8"})
-```
-
 ## Consistency over time
 
-Within-run standard deviation per run. Lower is more consistent.
+Within-run standard deviation per run — the primary stability metric for this benchmark. Lower is more consistent.
 
 ```js
 volatilityTimeSeries(data, {color: "#1192E8"})
 ```
 
-## Distribution by circuit depth
+## Success probability over time
 
-Box plots show the full distribution — median (center line), interquartile range (box), and outliers (dots). Wider boxes and lower medians at higher depths indicate noise accumulation with circuit complexity.
+Success probability for a given circuit is the fraction of shots that produced the correct output — where "correct" is the deterministic, noise-free answer computed by classical simulation. Each point is the mean across the circuits sampled that run. The shaded band shows ±1 standard deviation within the run.
+
+```js
+successTimeSeries(data, {color: "#1192E8"})
+```
+
+## Performance breakdown
+
+How success probability varies across circuit depth and input state, aggregated across all runs.
+
+### Success probability by circuit depth and input state
+
+<p style="margin-bottom:0">Each point is one (depth, input state) combination. Point size reflects how many circuits were run with that combination. Drag to rotate.</p>
+
+```js
+successSurface3D(data)
+```
+
+### Distribution by circuit depth
 
 ```js
 boxByLength(data, {color: "#1192E8"})
 ```
 
-## Mean success by circuit depth
+### Mean success by circuit depth
 
 Mean success probability for each depth, averaged across all runs. A declining trend confirms that noise accumulates as circuit depth increases.
 
@@ -62,7 +72,7 @@ Mean success probability for each depth, averaged across all runs. A declining t
 successByLength(data, {color: "#1192E8"})
 ```
 
-## Mean success by input state
+### Mean success by input state
 
 Does the initial qubit state affect results? Ideally it shouldn't — deviations suggest state-preparation or readout asymmetry.
 
@@ -82,6 +92,7 @@ temporalDriftScatter(data)
 
 ```js
 Inputs.table(data.runs.slice().reverse(), {
+  select: false,
   columns: ["run_date", "mean_success", "std_success", "n_circuits"],
   header: {
     run_date: "Date",
