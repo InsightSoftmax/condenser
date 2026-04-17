@@ -9,6 +9,7 @@ export default {
         {name: "AQT IBEX", path: "/aqt"},
         {name: "IBM Brisbane", path: "/ibm"},
         {name: "IonQ Aria-1", path: "/ionq"},
+        {name: "IonQ Forte-1", path: "/ionq-forte"},
         {name: "Rigetti Ankaa-3", path: "/rigetti"},
       ]
     },

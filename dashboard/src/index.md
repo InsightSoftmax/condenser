@@ -22,8 +22,9 @@ ${summary.map(p => html`
     <div class="platform-name">
       ${p.platform === "rigetti" ? html`<a href="/rigetti">Rigetti ${p.backend}</a>` :
         p.platform === "aqt"     ? html`<a href="/aqt">AQT ${p.backend}</a>` :
-        p.platform === "ibm"     ? html`<a href="/ibm">IBM ${p.backend}</a>` :
-                                   html`<a href="/ionq">IonQ ${p.backend}</a>`}
+        p.platform === "ibm"          ? html`<a href="/ibm">IBM ${p.backend}</a>` :
+        p.platform === "ionq_forte"   ? html`<a href="/ionq-forte">IonQ ${p.backend}</a>` :
+                                        html`<a href="/ionq">IonQ ${p.backend}</a>`}
       <span class="badge ${statusClass[p.status]}" style="margin-left: 0.5rem">${statusLabel[p.status]}</span>
     </div>
     ${p.latest_success != null ? html`
