@@ -36,35 +36,65 @@ ${summary.map(p => html`
 `)}
 </div>
 
-## Success probability over time
+## Consistency over time
+
+Within-run standard deviation per run — lower is more consistent.
 
 ```js
+const PLATFORM_LABEL = {aqt: "AQT IBEX", ionq: "IonQ Aria-1", ionq_forte: "IonQ Forte-1", rigetti: "Rigetti Ankaa-3"};
+const PLATFORM_COLOR = {aqt: "#363D47", ionq: "#74737B", ionq_forte: "#99979D", rigetti: "#CC8A00"};
 const allRuns = summary.flatMap(p =>
-  p.sparkline.map(d => ({...d, platform: p.platform, date: new Date(d.date)}))
+  p.sparkline.map(d => ({...d, label: PLATFORM_LABEL[p.platform] ?? p.platform, date: new Date(d.date)}))
 );
-const platformColors = {rigetti: "#CC8A00", aqt: "#363D47", ionq: "#74737B"};
+const volatilityRuns = allRuns.filter(d => d.std > 0);
+const colorDomain = Object.values(PLATFORM_LABEL);
+const colorRange  = Object.values(PLATFORM_COLOR);
 ```
 
 ```js
 Plot.plot({
   width: 900,
+  height: 220,
+  marginLeft: 55,
+  y: {label: "Within-run std dev", tickFormat: d => `${(d * 100).toFixed(1)}%`},
+  x: {type: "utc", label: null},
+  color: {domain: colorDomain, range: colorRange, legend: true},
+  marks: [
+    Plot.line(volatilityRuns, {
+      x: "date", y: "std", stroke: "label",
+      strokeWidth: 1.5, curve: "monotone-x",
+    }),
+    Plot.dot(volatilityRuns, {
+      x: "date", y: "std", fill: "label",
+      r: 3, tip: true,
+      title: d => `${d.label}\n${d.date.toLocaleDateString()}\nσ = ${(d.std * 100).toFixed(1)}%`,
+    }),
+  ],
+})
+```
+
+## Success probability over time
+
+```js
+Plot.plot({
+  width: 900,
   height: 280,
-  marginLeft: 50,
+  marginLeft: 55,
   y: {domain: [0.7, 1.02], label: "Mean success probability", tickFormat: d => `${(d*100).toFixed(0)}%`},
   x: {type: "utc", label: null},
-  color: {domain: Object.keys(platformColors), range: Object.values(platformColors), legend: true},
+  color: {domain: colorDomain, range: colorRange, legend: true},
   marks: [
     Plot.ruleY([1], {stroke: "#e2e8f0"}),
     Plot.line(allRuns, {
-      x: "date", y: "value", stroke: "platform",
-      strokeWidth: 2, curve: "monotone-x"
+      x: "date", y: "value", stroke: "label",
+      strokeWidth: 2, curve: "monotone-x",
     }),
     Plot.dot(allRuns, {
-      x: "date", y: "value", fill: "platform",
+      x: "date", y: "value", fill: "label",
       r: 3, tip: true,
-      title: d => `${d.platform}\n${d.date.toLocaleDateString()}\n${(d.value * 100).toFixed(1)}%`
+      title: d => `${d.label}\n${d.date.toLocaleDateString()}\n${(d.value * 100).toFixed(1)}%`,
     }),
-  ]
+  ],
 })
 ```
 
@@ -73,23 +103,27 @@ Plot.plot({
 10 circuits × 100 shots. Pricing as of April 2026.
 
 ```js
+const PLATFORM_NAME = {
+  aqt: "AQT IBEX (direct)", ionq: "IonQ Aria-1", ionq_forte: "IonQ Forte-1", rigetti: "Rigetti Ankaa-3",
+};
+const ACCESS = {
+  aqt: "qiskit-aqt-provider", ionq: "AWS Braket (historical)",
+  ionq_forte: "IonQ REST API (historical)", rigetti: "AWS Braket",
+};
 const costRows = [
   ...summary.map(p => ({
-    platform: p.platform === "rigetti" ? "Rigetti Ankaa-3" :
-              p.platform === "aqt"     ? "AQT IBEX" :
-                                         "IonQ Aria-1",
-    access: p.platform === "rigetti" ? "AWS Braket" :
-            p.platform === "aqt"     ? "qiskit-aqt-provider (direct)" :
-                                       "AWS Braket (historical)",
+    platform: PLATFORM_NAME[p.platform] ?? p.platform,
+    access: ACCESS[p.platform] ?? "—",
     cost_per_run: p.cost_per_run_usd,
     annual_52: p.cost_per_run_usd * 52,
   })),
-  {platform: "AQT IBEX (alt)", access: "AWS Braket", cost_per_run: 26.50, annual_52: 26.50 * 52},
+  {platform: "AQT IBEX (via Braket)", access: "AWS Braket", cost_per_run: 26.50, annual_52: 26.50 * 52},
 ];
 ```
 
 ```js
-Inputs.table(costRows, {
+Inputs.table(costRows.sort((a, b) => a.platform.localeCompare(b.platform)), {
+  select: false,
   columns: ["platform", "access", "cost_per_run", "annual_52"],
   header: {platform: "Platform", access: "Access", cost_per_run: "Per run", annual_52: "Annual (52×)"},
   format: {
@@ -99,8 +133,10 @@ Inputs.table(costRows, {
 })
 ```
 
-*AQT pricing from quotation Q2511001 (Nov 2025), converted at EUR/USD ≈ 1.09. "AQT IBEX (alt)" is the AWS Braket-managed access path — within ~5% of direct, slightly more expensive. IonQ figure is historical (Aria-1 at $0.03/shot); current Forte would be ~$83/run.*
+*AQT pricing from quotation Q2511001 (Nov 2025), converted at EUR/USD ≈ 1.09. IonQ figure is historical (Aria-1 at $0.03/shot); current Forte would be ~$83/run.*
 
 ---
 
-*Benchmarks run weekly. Each run samples 10 circuits from a family of 24 (6 circuit depths × 4 input states), 100 shots each. [Learn more about the methodology.](/about)*
+*Benchmarks run weekly. Each run samples 10 circuits from a family of 24 (6 circuit depths × 4 input states), 100 shots each.*
+
+<a href="/about" style="display:inline-block;margin-top:0.25rem;font-size:0.9rem;color:var(--isc-gold);font-weight:600;text-decoration:none;border-bottom:1.5px solid var(--isc-gold)">Learn more about the methodology →</a>

@@ -10,36 +10,32 @@ import pandas as pd
 repo_root = Path(__file__).parents[3]
 
 PLATFORMS = {
-    "rigetti": {"backend": "Ankaa-3", "status": "active",     "cost_per_run_usd": 3.90},
-    "aqt":     {"backend": "IBEX",    "status": "active",     "cost_per_run_usd": 25.07},
-    "ionq":    {"backend": "Forte-1", "status": "historical", "cost_per_run_usd": 33.00},
+    "aqt":        {"backend": "IBEX",    "status": "active",     "cost_per_run_usd": 25.07},
+    "ionq":       {"backend": "Aria-1",  "status": "historical", "cost_per_run_usd": 33.00,  "csv_key": "ionq", "backend_filter": "Aria"},
+    "ionq_forte": {"backend": "Forte-1", "status": "historical", "cost_per_run_usd": 259.00, "csv_key": "ionq", "backend_filter": "Forte"},
+    "rigetti":    {"backend": "Ankaa-3", "status": "active",     "cost_per_run_usd": 3.90},
 }
 
 summary = []
 
 for platform, meta in PLATFORMS.items():
-    csv_path = repo_root / "data" / platform / "results.csv"
+    csv_key = meta.get("csv_key", platform)
+    csv_path = repo_root / "data" / csv_key / "results.csv"
     if not csv_path.exists():
         summary.append({
-            "platform": platform,
-            "backend": meta["backend"],
-            "status": meta["status"],
+            "platform": platform, "backend": meta["backend"], "status": meta["status"],
             "cost_per_run_usd": meta["cost_per_run_usd"],
-            "latest_run": None,
-            "latest_success": None,
-            "overall_mean": None,
-            "n_runs": 0,
-            "n_circuits": 0,
-            "sparkline": [],
+            "latest_run": None, "latest_success": None, "overall_mean": None,
+            "n_runs": 0, "n_circuits": 0, "sparkline": [],
         })
         continue
 
     df = pd.read_csv(csv_path, parse_dates=["run_date"], dtype={"input_bits": str})
-    # Exclude simulator/dry-run rows
-    df = df[~df["notes"].fillna("").isin(["dry_run", "simulator"])]
+    df = df[df["notes"].fillna("") == ""]
 
-    if platform == "ionq":
-        df = df[df["backend"].isin(["Aria-1", "Forte-1"])]
+    backend_filter = meta.get("backend_filter")
+    if backend_filter:
+        df = df[df["backend"].str.contains(backend_filter, na=False)]
 
     if df.empty:
         summary.append({
@@ -57,13 +53,18 @@ for platform, meta in PLATFORMS.items():
 
     runs = (
         df.groupby("run_date")["success_probability"]
-        .mean()
+        .agg(success_probability="mean", std_success="std")
         .reset_index()
         .sort_values("run_date")
     )
+    runs["std_success"] = runs["std_success"].fillna(0.0)
 
     sparkline = [
-        {"date": row["run_date"].strftime("%Y-%m-%d"), "value": round(row["success_probability"], 4)}
+        {
+            "date": row["run_date"].strftime("%Y-%m-%d"),
+            "value": round(float(row["success_probability"]), 4),
+            "std": round(float(row["std_success"]), 4),
+        }
         for _, row in runs.iterrows()
     ]
 

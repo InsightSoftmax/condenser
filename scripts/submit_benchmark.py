@@ -24,10 +24,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 ENABLED_PLATFORMS = [
     "rigetti_braket",  # active: Rigetti Ankaa-3 via AWS Braket (us-west-1)
     "aqt_qiskit",      # active: AQT via qiskit-aqt-provider; requires AQT_API_KEY secret
-    "ibm_qiskit",      # active: IBM Brisbane via Qiskit Runtime; requires IBM_QUANTUM_TOKEN secret
-    # "ionq_direct",   # active: IonQ Forte-1 via REST API — runs monthly via submit-benchmark-ionq.yml
-    # "ionq_braket",   # active: IonQ Forte-1 via AWS Braket — runs monthly via submit-benchmark-ionq-braket.yml
-    # "iqm_braket",    # active: IQM Garnet via AWS Braket — runs weekly via submit-benchmark-iqm.yml
+    # "ionq_braket",   # paused: budget
+    # "ibm_qiskit",    # pending: locate Sami's notebook and existing results
 ]
 
 
@@ -68,6 +66,7 @@ def main() -> None:
     print(f"Submitting benchmarks for: {platforms}")
     print(f"Run date: {run_date}  |  Mode: {mode}")
 
+    failed = []
     for platform_name in platforms:
         print(f"\n=== {platform_name} ===")
         try:
@@ -85,7 +84,11 @@ def main() -> None:
 
         except Exception as e:
             print(f"  ERROR: {e}")
-            raise
+            failed.append(platform_name)
+
+    if failed:
+        print(f"\nFailed platforms: {failed}")
+        sys.exit(1)
 
 
 if __name__ == "__main__":

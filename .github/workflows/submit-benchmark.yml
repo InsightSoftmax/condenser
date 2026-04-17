@@ -2,10 +2,8 @@ name: Submit Benchmark
 
 on:
   schedule:
-    # Every Tuesday at 10:30 UTC (11:30 CET / 12:30 CEST) — within AQT hardware access window.
-    # Must not coincide with collect-results.yml, which runs on the hour every 6h.
-    # Keep this at a :30 offset so both workflows never push to main simultaneously.
-    - cron: "30 10 * * 2"
+    # Every Monday at 12:00 UTC
+    - cron: "0 12 * * 1"
   workflow_dispatch:
     inputs:
       platform:
@@ -36,6 +34,9 @@ jobs:
       contents: write   # to commit pending job files
       id-token: write   # for OIDC
 
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -47,7 +48,7 @@ jobs:
           aws-region: us-west-1   # Rigetti Ankaa-3 is in us-west-1; S3 bucket must match
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v6
         with:
           enable-cache: true
 
@@ -56,7 +57,7 @@ jobs:
 
       - name: Submit jobs
         env:
-          BRAKET_RESULTS_BUCKET_WEST: ${{ vars.BRAKET_RESULTS_BUCKET_WEST }}
+          BRAKET_RESULTS_BUCKET: ${{ vars.BRAKET_RESULTS_BUCKET }}
           AQT_API_KEY: ${{ secrets.AQT_API_KEY }}
           DRY_RUN: ${{ inputs.dry_run || 'false' }}
           USE_SIMULATOR: ${{ inputs.simulator || 'false' }}

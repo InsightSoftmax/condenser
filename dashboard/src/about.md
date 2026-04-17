@@ -49,4 +49,6 @@ A perfect QPU would score 1.0 on every circuit. Real hardware scores lower due t
 
 ## Data
 
-All raw results are stored as CSV files committed to the [GitHub repository](https://github.com/InsightSoftmax/condenser). One row per circuit execution, including the full shot histogram (`counts_json`), timestamps, and SDK version.
+All raw results are stored as CSV files committed to the [GitHub repository](https://github.com/InsightSoftmax/quantum-stability). One row per circuit execution, including the full shot histogram (`counts_json`), timestamps, and SDK version.
+
+This project is maintained by [Insight Softmax](https://insightsoftmax.com/).

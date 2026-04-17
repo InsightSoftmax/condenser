@@ -159,6 +159,14 @@ code, pre, .mono {
 .badge-historical { background: var(--isc-blue-20);   color: var(--isc-dark-blue); }
 
 /* ==========================================================================
+   Data table — row hover highlight, no selection chrome
+   ========================================================================== */
+
+.observablehq tbody tr:hover td {
+  background: var(--isc-gray-40);
+}
+
+/* ==========================================================================
    Footer
    ========================================================================== */
 
@@ -167,4 +175,5 @@ code, pre, .mono {
   font-size: 0.75rem;
   color: var(--isc-muted);
   border-top: 1px solid var(--isc-border);
+  padding-top: 1rem;
 }

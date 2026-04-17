@@ -2,9 +2,8 @@ name: Collect Results
 
 on:
   schedule:
-    # Every 6 hours on the hour — keeps checking until all pending jobs complete,
+    # Every 6 hours — keeps checking until all pending jobs complete,
     # regardless of how long the queue is (IonQ can be days).
-    # Must not coincide with submit-benchmark.yml; keep that workflow at a :30 offset.
     - cron: "0 */6 * * *"
   workflow_dispatch: {}
 
@@ -20,6 +19,9 @@ jobs:
     permissions:
       contents: write   # to commit results and remove pending files
       id-token: write   # for OIDC
+
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
       - name: Checkout
@@ -41,7 +43,7 @@ jobs:
 
       - name: Install uv
         if: steps.check.outputs.pending_count != '0'
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v6
         with:
           enable-cache: true
 
@@ -52,9 +54,8 @@ jobs:
       - name: Collect results
         if: steps.check.outputs.pending_count != '0'
         env:
-          BRAKET_RESULTS_BUCKET_WEST: ${{ vars.BRAKET_RESULTS_BUCKET_WEST }}
+          BRAKET_RESULTS_BUCKET: ${{ vars.BRAKET_RESULTS_BUCKET }}
           AQT_API_KEY: ${{ secrets.AQT_API_KEY }}
-          IONQ_API_KEY: ${{ secrets.IONQ_API_KEY }}
         run: uv run python scripts/collect_results.py
 
       - name: Commit results

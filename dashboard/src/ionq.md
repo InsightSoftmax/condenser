@@ -1,15 +1,15 @@
 ---
-title: IonQ
+title: IonQ Aria-1
 ---
 
 ```js
-import {successTimeSeries, volatilityTimeSeries, boxByLength, successByLength, successByInput, temporalDriftScatter} from "./components/platformCharts.js";
+import {successTimeSeries, volatilityTimeSeries, boxByLength, successByLength, successByInput, successSurface3D} from "./components/platformCharts.js";
 const data = await FileAttachment("data/ionq.json").json();
 ```
 
-# IonQ
+# IonQ Aria-1
 
-Trapped-ion QPU benchmarks run directly via the IonQ API. Data covers two hardware generations: **Aria-1** (accessed via AWS Braket, February–March 2024) and **Forte-1** (accessed directly, May–June 2025). Runs are currently paused.
+Trapped-ion QPU accessed via AWS Braket. Historical data from February–March 2024. Runs are currently paused.
 
 <div style="display: flex; gap: 2rem; margin: 1rem 0;">
   <div class="platform-card" style="flex: 1">
@@ -18,7 +18,7 @@ Trapped-ion QPU benchmarks run directly via the IonQ API. Data covers two hardwa
   </div>
   <div class="platform-card" style="flex: 1">
     <div class="metric">${data.runs.length}</div>
-    <div class="metric-label">Total runs</div>
+    <div class="metric-label">Runs (2024)</div>
   </div>
   <div class="platform-card" style="flex: 1">
     <div class="metric">${data.circuits.length}</div>
@@ -26,37 +26,49 @@ Trapped-ion QPU benchmarks run directly via the IonQ API. Data covers two hardwa
   </div>
 </div>
 
-## Success probability over time
-
-Each point is the mean success rate across the circuits sampled that week. The shaded band shows ±1 standard deviation within the run.
-
-```js
-successTimeSeries(data, {color: "#74737B"})
-```
-
 ## Consistency over time
 
-Within-run standard deviation per week. Lower is more consistent.
+Within-run standard deviation per run — the primary stability metric for this benchmark. Lower is more consistent.
 
 ```js
 volatilityTimeSeries(data, {color: "#74737B"})
 ```
 
-## Distribution by circuit depth
+## Success probability over time
 
-Box plots show the full distribution — median (center line), interquartile range (box), and outliers (dots). Wider boxes and lower medians at higher depths indicate noise accumulation with circuit complexity.
+Success probability for a given circuit is the fraction of shots that produced the correct output — where "correct" is the deterministic, noise-free answer computed by classical simulation. Each point is the mean across the circuits sampled that run. The shaded band shows ±1 standard deviation within the run.
+
+```js
+successTimeSeries(data, {color: "#74737B"})
+```
+
+## Performance breakdown
+
+How success probability varies across circuit depth and input state, aggregated across all runs.
+
+### Success probability by circuit depth and input state
+
+<p style="margin-bottom:0">Each point is one (depth, input state) combination. Point size reflects how many circuits were run with that combination. Drag to rotate.</p>
+
+```js
+successSurface3D(data)
+```
+
+### Distribution by circuit depth
 
 ```js
 boxByLength(data, {color: "#74737B"})
 ```
 
-## Mean success by circuit depth
+### Mean success by circuit depth
+
+Mean success probability for each depth, averaged across all runs. A declining trend confirms that noise accumulates as circuit depth increases.
 
 ```js
 successByLength(data, {color: "#74737B"})
 ```
 
-## Mean success by input state
+### Mean success by input state
 
 Does the initial qubit state affect results? Ideally it shouldn't — deviations suggest state-preparation or readout asymmetry.
 
@@ -64,18 +76,11 @@ Does the initial qubit state affect results? Ideally it shouldn't — deviations
 successByInput(data, {color: "#74737B"})
 ```
 
-## Temporal drift within runs
-
-Per-circuit completion time vs. success probability, colored by circuit depth. Systematic patterns indicate hardware drift during execution.
-
-```js
-temporalDriftScatter(data)
-```
-
 ## All runs
 
 ```js
 Inputs.table(data.runs.slice().reverse(), {
+  select: false,
   columns: ["run_date", "mean_success", "std_success", "n_circuits"],
   header: {
     run_date: "Date",

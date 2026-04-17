@@ -1,5 +1,5 @@
 """
-Data loader: IonQ results (Aria-1 historical via Braket + Forte-1 direct 2025 runs).
+Data loader: IonQ Aria-1 results.
 """
 import json
 import sys
@@ -15,9 +15,10 @@ if not csv_path.exists():
     sys.exit(0)
 
 df = pd.read_csv(csv_path, parse_dates=["run_date"], dtype={"input_bits": str})
-# Exclude simulator/dry-run rows and Harmony (older lower-fidelity hardware)
-df = df[~df["notes"].fillna("").isin(["dry_run", "simulator"])]
-df = df[df["backend"].isin(["Aria-1", "Forte-1"])]
+df = df[df["notes"].fillna("") == ""]
+
+# IonQ data includes Harmony + Aria-1 — keep only Aria-1 for consistency
+df = df[df["backend"].str.contains("Aria", na=False)]
 
 runs = (
     df.groupby("run_date")["success_probability"]
@@ -47,7 +48,7 @@ by_input = (
 
 output = {
     "platform": "ionq",
-    "backend": "Aria-1 / Forte-1",
+    "backend": "Aria-1",
     "runs": runs.to_dict(orient="records"),
     "circuits": circuits.to_dict(orient="records"),
     "by_length": by_length.to_dict(orient="records"),

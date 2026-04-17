@@ -3,7 +3,7 @@ title: Rigetti Ankaa-3
 ---
 
 ```js
-import {successTimeSeries, volatilityTimeSeries, boxByLength, successByLength, successByInput, temporalDriftScatter} from "./components/platformCharts.js";
+import {successTimeSeries, volatilityTimeSeries, boxByLength, successByLength, successByInput, successSurface3D} from "./components/platformCharts.js";
 const data = await FileAttachment("data/rigetti.json").json();
 ```
 
@@ -30,37 +30,49 @@ Superconducting QPU accessed via AWS Braket. Runs weekly on Tuesdays.
   </div>
 </div>
 
-## Success probability over time
-
-Each point is the mean success rate across the 10 circuits sampled that week. The shaded band shows ±1 standard deviation within the run.
-
-```js
-successTimeSeries(data, {color: "#CC8A00"})
-```
-
 ## Consistency over time
 
-Within-run standard deviation per week. Lower is more consistent. Upward trend indicates growing variability.
+Within-run standard deviation per week — the primary stability metric for this benchmark. Lower is more consistent; an upward trend indicates growing variability.
 
 ```js
 volatilityTimeSeries(data, {color: "#CC8A00"})
 ```
 
-## Distribution by circuit depth
+## Success probability over time
 
-Box plots show the full distribution — median (center line), interquartile range (box), and outliers (dots). Wider boxes and lower medians at higher depths indicate noise accumulation with circuit complexity.
+Success probability for a given circuit is the fraction of shots that produced the correct output — where "correct" is the deterministic, noise-free answer computed by classical simulation. Each point is the mean across the 10 circuits sampled that week. The shaded band shows ±1 standard deviation within the run.
+
+```js
+successTimeSeries(data, {color: "#CC8A00"})
+```
+
+## Performance breakdown
+
+How success probability varies across circuit depth and input state, aggregated across all runs.
+
+### Success probability by circuit depth and input state
+
+<p style="margin-bottom:0">Each point is one (depth, input state) combination. Point size reflects how many circuits were run with that combination. Drag to rotate.</p>
+
+```js
+successSurface3D(data)
+```
+
+### Distribution by circuit depth
 
 ```js
 boxByLength(data, {color: "#CC8A00"})
 ```
 
-## Mean success by circuit depth
+### Mean success by circuit depth
+
+Mean success probability for each depth, averaged across all runs. A declining trend confirms that noise accumulates as circuit depth increases.
 
 ```js
 successByLength(data, {color: "#CC8A00"})
 ```
 
-## Mean success by input state
+### Mean success by input state
 
 Does the initial qubit state affect results? Ideally it shouldn't — deviations suggest state-preparation or readout asymmetry.
 
@@ -68,18 +80,11 @@ Does the initial qubit state affect results? Ideally it shouldn't — deviations
 successByInput(data, {color: "#CC8A00"})
 ```
 
-## Temporal drift within runs
-
-Per-circuit completion time vs. success probability, colored by circuit depth. Systematic patterns (e.g., quality worsening over time within a run) indicate hardware drift during execution.
-
-```js
-temporalDriftScatter(data)
-```
-
 ## All runs
 
 ```js
 Inputs.table(data.runs.slice().reverse(), {
+  select: false,
   columns: ["run_date", "mean_success", "std_success", "n_circuits"],
   header: {
     run_date: "Date",

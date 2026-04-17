@@ -9,7 +9,8 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@observablehq/framework": "^1.12.0"
+    "@observablehq/framework": "^1.12.0",
+    "plotly.js-dist-min": "^3.5.0"
   },
   "devDependencies": {
     "eslint": "^9.39.4"
