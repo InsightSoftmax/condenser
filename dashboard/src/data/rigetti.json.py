@@ -18,7 +18,7 @@ if not csv_path.exists():
 df = pd.read_csv(csv_path, parse_dates=["run_date"], dtype={"input_bits": str})
 
 # Exclude simulator/dry-run rows
-df = df[df["notes"].fillna("") == ""]
+df = df[~df["notes"].fillna("").str.contains("dry_run|simulator")]
 
 # Per-run aggregates (one row per run_date)
 runs = (

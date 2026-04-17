@@ -32,7 +32,7 @@ for platform, meta in PLATFORMS.items():
         continue
 
     df = pd.read_csv(csv_path, parse_dates=["run_date"], dtype={"input_bits": str})
-    df = df[df["notes"].fillna("") == ""]
+    df = df[~df["notes"].fillna("").str.contains("dry_run|simulator")]
 
     backend_filter = meta.get("backend_filter")
     if backend_filter:

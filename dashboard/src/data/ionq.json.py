@@ -15,7 +15,7 @@ if not csv_path.exists():
     sys.exit(0)
 
 df = pd.read_csv(csv_path, parse_dates=["run_date"], dtype={"input_bits": str})
-df = df[df["notes"].fillna("") == ""]
+df = df[~df["notes"].fillna("").str.contains("dry_run|simulator")]
 
 # IonQ data includes Harmony + Aria-1 — keep only Aria-1 for consistency
 df = df[df["backend"].str.contains("Aria", na=False)]
