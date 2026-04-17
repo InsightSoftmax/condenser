@@ -26,9 +26,9 @@ _TERMINAL_STATES = {"COMPLETED", "FAILED", "CANCELLED"}
 
 
 def _s3_folder() -> tuple[str, str]:
-    bucket = os.environ.get("BRAKET_RESULTS_BUCKET")
+    bucket = os.environ.get("BRAKET_RESULTS_BUCKET_WEST")
     if not bucket:
-        raise RuntimeError("BRAKET_RESULTS_BUCKET environment variable is not set")
+        raise RuntimeError("BRAKET_RESULTS_BUCKET_WEST environment variable is not set")
     return (bucket, S3_PREFIX)
 
 

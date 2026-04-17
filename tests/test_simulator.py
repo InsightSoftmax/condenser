@@ -66,7 +66,7 @@ class TestIonQSimulator:
     def test_submit_returns_pending_dict(self):
         from benchmarks import ionq_braket
         pending = ionq_braket.submit(n_circuits=N_CIRCUITS, shots=SHOTS, dry_run=True)
-        assert pending["platform"] == "ionq"
+        assert pending["platform"] == "ionq_braket"
         assert pending["backend"] == "LocalSimulator"
         assert pending["dry_run"] is True
         assert len(pending["jobs"]) == N_CIRCUITS
@@ -82,6 +82,29 @@ class TestIonQSimulator:
         pending = ionq_braket.submit(n_circuits=N_CIRCUITS, shots=SHOTS, dry_run=True)
         pending_reloaded = json.loads(json.dumps(pending, default=str))
         results = ionq_braket.collect(pending_reloaded)
+        _validate_results(results, N_CIRCUITS, SHOTS)
+
+
+class TestIQMSimulator:
+    def test_submit_returns_pending_dict(self):
+        from benchmarks import iqm_braket
+        pending = iqm_braket.submit(n_circuits=N_CIRCUITS, shots=SHOTS, dry_run=True)
+        assert pending["platform"] == "iqm_braket"
+        assert pending["backend"] == "LocalSimulator"
+        assert pending["dry_run"] is True
+        assert len(pending["jobs"]) == N_CIRCUITS
+
+    def test_collect_returns_results(self):
+        from benchmarks import iqm_braket
+        pending = iqm_braket.submit(n_circuits=N_CIRCUITS, shots=SHOTS, dry_run=True)
+        results = iqm_braket.collect(pending)
+        _validate_results(results, N_CIRCUITS, SHOTS)
+
+    def test_full_pipeline_via_json_round_trip(self):
+        from benchmarks import iqm_braket
+        pending = iqm_braket.submit(n_circuits=N_CIRCUITS, shots=SHOTS, dry_run=True)
+        pending_reloaded = json.loads(json.dumps(pending, default=str))
+        results = iqm_braket.collect(pending_reloaded)
         _validate_results(results, N_CIRCUITS, SHOTS)
 
 
@@ -101,7 +124,6 @@ class TestIBMSimulator:
         _validate_results(results, N_CIRCUITS, SHOTS)
 
     def test_full_pipeline_via_json_round_trip(self):
-        """Pending dict must survive JSON serialization (as it does when saved to disk)."""
         from benchmarks import ibm_qiskit
         pending = ibm_qiskit.submit(n_circuits=N_CIRCUITS, shots=SHOTS, dry_run=True)
         pending_reloaded = json.loads(json.dumps(pending, default=str))

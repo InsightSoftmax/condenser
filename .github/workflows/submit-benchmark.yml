@@ -56,7 +56,7 @@ jobs:
 
       - name: Submit jobs
         env:
-          BRAKET_RESULTS_BUCKET: ${{ vars.BRAKET_RESULTS_BUCKET }}
+          BRAKET_RESULTS_BUCKET_WEST: ${{ vars.BRAKET_RESULTS_BUCKET_WEST }}
           AQT_API_KEY: ${{ secrets.AQT_API_KEY }}
           DRY_RUN: ${{ inputs.dry_run || 'false' }}
           USE_SIMULATOR: ${{ inputs.simulator || 'false' }}

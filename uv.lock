@@ -541,6 +541,7 @@ dependencies = [
     { name = "qiskit" },
     { name = "qiskit-aqt-provider" },
     { name = "qiskit-ibm-runtime" },
+    { name = "requests" },
     { name = "seaborn" },
 ]
 
@@ -559,6 +560,7 @@ requires-dist = [
     { name = "qiskit", specifier = ">=1.0.0" },
     { name = "qiskit-aqt-provider", specifier = ">=1.0.0" },
     { name = "qiskit-ibm-runtime", specifier = ">=0.20.0" },
+    { name = "requests", specifier = ">=2.32.0" },
     { name = "seaborn", specifier = ">=0.13.0" },
 ]
 

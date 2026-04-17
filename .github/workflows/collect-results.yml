@@ -52,8 +52,9 @@ jobs:
       - name: Collect results
         if: steps.check.outputs.pending_count != '0'
         env:
-          BRAKET_RESULTS_BUCKET: ${{ vars.BRAKET_RESULTS_BUCKET }}
+          BRAKET_RESULTS_BUCKET_WEST: ${{ vars.BRAKET_RESULTS_BUCKET_WEST }}
           AQT_API_KEY: ${{ secrets.AQT_API_KEY }}
+          IONQ_API_KEY: ${{ secrets.IONQ_API_KEY }}
         run: uv run python scripts/collect_results.py
 
       - name: Commit results

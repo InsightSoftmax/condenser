@@ -1,15 +1,15 @@
 """
-IonQ Forte-1 benchmark via AWS Braket.
+IQM Garnet benchmark via AWS Braket.
 
 Authentication: OIDC-assumed IAM role (set up in infra/). No explicit credentials needed.
 SDK: amazon-braket-sdk
-Backend: IonQ Forte-1 (us-east-1)
-Results bucket: BRAKET_RESULTS_BUCKET_EAST (us-east-1) — distinct from the Rigetti/us-west-1 bucket.
+Backend: IQM Garnet (eu-north-1, 20-qubit superconducting gate-based QPU)
+Results bucket: BRAKET_RESULTS_BUCKET_EU (eu-north-1)
 
-Uses explicit us-east-1 boto3 sessions throughout so this module works correctly even when
+Uses explicit eu-north-1 boto3 sessions throughout so this module works correctly even when
 the GitHub Actions workflow configures credentials with a different default region.
 
-IonQ queues can be measured in days. This module uses a two-stage approach:
+IQM queues can be measured in hours. This module uses a two-stage approach:
   - submit()  → submit jobs, return a pending dict to be saved to disk
   - collect() → check job status, return results if all done, None if still waiting
 """
@@ -21,18 +21,18 @@ from datetime import UTC, date, datetime
 
 from benchmarks.circuits import REFERENCE_TABLE, build_circuit_braket, sample_circuits
 
-PLATFORM = "ionq_braket"
-BACKEND_ARN = "arn:aws:braket:us-east-1::device/qpu/ionq/Forte-1"
-AWS_REGION = "us-east-1"
+PLATFORM = "iqm_braket"
+BACKEND_ARN = "arn:aws:braket:eu-north-1::device/qpu/iqm/Garnet"
+AWS_REGION = "eu-north-1"
 S3_PREFIX = "condenser-results"
 
 _TERMINAL_STATES = {"COMPLETED", "FAILED", "CANCELLED"}
 
 
 def _s3_folder() -> tuple[str, str]:
-    bucket = os.environ.get("BRAKET_RESULTS_BUCKET_EAST")
+    bucket = os.environ.get("BRAKET_RESULTS_BUCKET_EU")
     if not bucket:
-        raise RuntimeError("BRAKET_RESULTS_BUCKET_EAST environment variable is not set")
+        raise RuntimeError("BRAKET_RESULTS_BUCKET_EU environment variable is not set")
     return (bucket, S3_PREFIX)
 
 
@@ -47,11 +47,11 @@ def submit(
 ) -> dict:
     """
     Submit circuits and return a pending dict.
-    The caller is responsible for saving this to pending/ionq_braket/<date>.json.
+    The caller is responsible for saving this to pending/iqm_braket/<date>.json.
     """
     if use_simulator:
         raise RuntimeError(
-            "Cloud simulator not supported for ionq_braket (SV1 blocked by org SCP). "
+            "Cloud simulator not supported for iqm_braket. "
             "Use --dry-run for local simulation."
         )
 
