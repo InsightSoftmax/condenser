@@ -235,7 +235,7 @@ export function successByInput(data, {color = "#363D47", width = 400} = {}) {
  * Rotatable 3D scatter — success probability as a function of circuit depth
  * and input state. Point size encodes circuit count. Uses Plotly.js.
  */
-export async function successSurface3D(data, {height = 520} = {}) {
+export async function successSurface3D(data, {height = 520, color = "#CC8A00"} = {}) {
   const Plotly = (await import("plotly.js-dist-min")).default;
 
   const lengths = [1, 2, 3, 4, 5, 6];
@@ -281,7 +281,7 @@ export async function successSurface3D(data, {height = 520} = {}) {
     marker: {
       size: sizes,
       color: zs,
-      colorscale: [[0, "#99979D"], [0.5, "#E7C89D"], [1, "#CC8A00"]],
+      colorscale: [[0, "#cccccc"], [1, color]],
       cmin: 0.7,
       cmax: 1.0,
       colorbar: {
