@@ -1,5 +1,5 @@
 ---
-title: IonQ Aria-1
+title: IonQ
 ---
 
 ```js
@@ -7,9 +7,9 @@ import {successTimeSeries, volatilityTimeSeries, boxByLength, successByLength, s
 const data = await FileAttachment("data/ionq.json").json();
 ```
 
-# IonQ Aria-1
+# IonQ
 
-Trapped-ion QPU accessed via AWS Braket. Historical data from February–March 2024. Runs are currently paused.
+Trapped-ion QPU benchmarks run directly via the IonQ API. Data covers two hardware generations: **Aria-1** (accessed via AWS Braket, February–March 2024) and **Forte-1** (accessed directly, May–June 2025). Runs are currently paused.
 
 <div style="display: flex; gap: 2rem; margin: 1rem 0;">
   <div class="platform-card" style="flex: 1">
@@ -18,7 +18,7 @@ Trapped-ion QPU accessed via AWS Braket. Historical data from February–March 2
   </div>
   <div class="platform-card" style="flex: 1">
     <div class="metric">${data.runs.length}</div>
-    <div class="metric-label">Runs (2024)</div>
+    <div class="metric-label">Total runs</div>
   </div>
   <div class="platform-card" style="flex: 1">
     <div class="metric">${data.circuits.length}</div>

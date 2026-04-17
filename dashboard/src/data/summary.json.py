@@ -12,7 +12,7 @@ repo_root = Path(__file__).parents[3]
 PLATFORMS = {
     "rigetti": {"backend": "Ankaa-3", "status": "active",     "cost_per_run_usd": 3.90},
     "aqt":     {"backend": "IBEX",    "status": "active",     "cost_per_run_usd": 25.07},
-    "ionq":    {"backend": "Aria-1",  "status": "historical", "cost_per_run_usd": 33.00},
+    "ionq":    {"backend": "Forte-1", "status": "historical", "cost_per_run_usd": 33.00},
 }
 
 summary = []
@@ -35,10 +35,11 @@ for platform, meta in PLATFORMS.items():
         continue
 
     df = pd.read_csv(csv_path, parse_dates=["run_date"], dtype={"input_bits": str})
-    df = df[df["notes"].fillna("") == ""]
+    # Exclude simulator/dry-run rows
+    df = df[~df["notes"].fillna("").isin(["dry_run", "simulator"])]
 
     if platform == "ionq":
-        df = df[df["backend"].str.contains("Aria", na=False)]
+        df = df[df["backend"].isin(["Aria-1", "Forte-1"])]
 
     if df.empty:
         summary.append({
