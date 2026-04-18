@@ -1,5 +1,5 @@
 """
-Data loader: Rigetti Ankaa-3 results.
+Data loader: Rigetti results (Ankaa-3 historical; Cepheus-1-108Q from April 2026).
 Reads data/rigetti/results.csv (relative to repo root) and outputs processed JSON.
 """
 import json
@@ -54,7 +54,7 @@ by_input = by_input.round(4)
 
 output = {
     "platform": "rigetti",
-    "backend": "Ankaa-3",
+    "backend": "Cepheus-1-108Q",
     "runs": runs.to_dict(orient="records"),
     "circuits": circuits.to_dict(orient="records"),
     "by_length": by_length.to_dict(orient="records"),

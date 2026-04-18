@@ -3,7 +3,7 @@ Rigetti benchmark via AWS Braket.
 
 Authentication: OIDC-assumed IAM role (set up in infra/). No explicit credentials needed.
 SDK: amazon-braket-sdk
-Backend: Rigetti Ankaa-3 (us-west-1)
+Backend: Rigetti Cepheus-1-108Q (us-west-1)
 
 Rigetti queues are typically short (seconds to minutes). Two-stage submit/collect
 is used anyway for consistency with other platforms.
@@ -17,7 +17,7 @@ from datetime import UTC, date, datetime
 from benchmarks.circuits import REFERENCE_TABLE, build_circuit_braket, sample_circuits
 
 PLATFORM = "rigetti"
-BACKEND_ARN = "arn:aws:braket:us-west-1::device/qpu/rigetti/Ankaa-3"
+BACKEND_ARN = "arn:aws:braket:us-west-1::device/qpu/rigetti/Cepheus-1-108Q"
 SV1_ARN = "arn:aws:braket:::device/quantum-simulator/amazon/sv1"
 
 S3_PREFIX = "condenser-results"

@@ -79,7 +79,7 @@ Per run: sample **10 circuits** stratified across lengths/states, **100 shots** 
 
 | Platform | Module | Access path | Status |
 |---|---|---|---|
-| Rigetti Ankaa-3 | `rigetti_braket` | AWS Braket (OIDC/IAM, us-west-1); `BRAKET_RESULTS_BUCKET_WEST` | Active — automated weekly (Tuesdays 10:00 UTC) |
+| Rigetti Cepheus-1-108Q | `rigetti_braket` | AWS Braket (OIDC/IAM, us-west-1); `BRAKET_RESULTS_BUCKET_WEST` | Active — automated weekly (Tuesdays 10:00 UTC) |
 | AQT | `aqt_qiskit` | Qiskit + qiskit-aqt-provider (`AQT_API_KEY`) | Active — automated weekly (Tuesdays 10:00 UTC); hardware window Tue/Wed 10:00–17:00 CET |
 
 | IonQ Aria-1 | `ionq_braket` | AWS Braket (OIDC/IAM) | Paused (budget) |

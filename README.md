@@ -40,7 +40,7 @@ Plotting this index through time reveals drift, maintenance windows, hardware ch
 
 | Platform | Access path | Status |
 |---|---|---|
-| Rigetti Ankaa-3 | AWS Braket | Active — weekly |
+| Rigetti Cepheus-1-108Q | AWS Braket | Active — weekly |
 | AQT IBEX | qiskit-aqt-provider | Active — weekly |
 | IQM Garnet | AWS Braket | Active — weekly |
 | IonQ Forte-1 | IonQ REST API | Active — monthly |

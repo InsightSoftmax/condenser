@@ -43,7 +43,7 @@ ${summary.map(p => html`
 Within-run standard deviation per run — lower is more consistent.
 
 ```js
-const PLATFORM_LABEL = {aqt: "AQT IBEX", ibm: "IBM Brisbane", ionq: "IonQ Aria-1", ionq_forte: "IonQ Forte-1", rigetti: "Rigetti Ankaa-3"};
+const PLATFORM_LABEL = {aqt: "AQT IBEX", ibm: "IBM Brisbane", ionq: "IonQ Aria-1", ionq_forte: "IonQ Forte-1", rigetti: "Rigetti Cepheus-1-108Q"};
 const PLATFORM_COLOR = {aqt: "#363D47", ibm: "#1192E8", ionq: "#74737B", ionq_forte: "#99979D", rigetti: "#CC8A00"};
 const allRuns = summary.flatMap(p =>
   p.sparkline.map(d => ({...d, label: PLATFORM_LABEL[p.platform] ?? p.platform, date: new Date(d.date)}))
@@ -106,7 +106,7 @@ Plot.plot({
 
 ```js
 const PLATFORM_NAME = {
-  aqt: "AQT IBEX (direct)", ionq: "IonQ Aria-1", ionq_forte: "IonQ Forte-1", rigetti: "Rigetti Ankaa-3",
+  aqt: "AQT IBEX (direct)", ionq: "IonQ Aria-1", ionq_forte: "IonQ Forte-1", rigetti: "Rigetti Cepheus-1-108Q",
 };
 const ACCESS = {
   aqt: "qiskit-aqt-provider", ionq: "AWS Braket (historical)",
