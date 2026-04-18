@@ -55,7 +55,7 @@ How success probability varies across circuit depth and input state, aggregated 
 <p style="margin-bottom:0">Each point is one (depth, input state) combination. Point size reflects how many circuits were run with that combination. Drag to rotate.</p>
 
 ```js
-successSurface3D(data)
+successSurface3D(data, {color: "#CC8A00"})
 ```
 
 ### Distribution by circuit depth

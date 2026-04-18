@@ -10,10 +10,11 @@ import pandas as pd
 repo_root = Path(__file__).parents[3]
 
 PLATFORMS = {
-    "aqt":        {"backend": "IBEX",    "status": "active",     "cost_per_run_usd": 25.07},
-    "ionq":       {"backend": "Aria-1",  "status": "historical", "cost_per_run_usd": 33.00,  "csv_key": "ionq", "backend_filter": "Aria"},
-    "ionq_forte": {"backend": "Forte-1", "status": "historical", "cost_per_run_usd": 259.00, "csv_key": "ionq", "backend_filter": "Forte"},
-    "rigetti":    {"backend": "Ankaa-3", "status": "active",     "cost_per_run_usd": 3.90},
+    "aqt":        {"backend": "IBEX",     "status": "active",     "cost_per_run_usd": 25.07},
+    "ibm":        {"backend": "Brisbane", "status": "historical", "cost_per_run_usd": None},
+    "ionq":       {"backend": "Aria-1",   "status": "historical", "cost_per_run_usd": 33.00,  "csv_key": "ionq", "backend_filter": "Aria"},
+    "ionq_forte": {"backend": "Forte-1",  "status": "historical", "cost_per_run_usd": 259.00, "csv_key": "ionq", "backend_filter": "Forte"},
+    "rigetti":    {"backend": "Ankaa-3",  "status": "active",     "cost_per_run_usd": 3.90},
 }
 
 summary = []
@@ -31,7 +32,7 @@ for platform, meta in PLATFORMS.items():
         continue
 
     df = pd.read_csv(csv_path, parse_dates=["run_date"], dtype={"input_bits": str})
-    df = df[df["notes"].fillna("") == ""]
+    df = df[~df["notes"].fillna("").str.contains("dry_run|simulator")]
 
     backend_filter = meta.get("backend_filter")
     if backend_filter:
