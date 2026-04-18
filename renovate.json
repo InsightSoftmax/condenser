@@ -1,0 +1,29 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "minimumReleaseAge": "14 days",
+  "packageRules": [
+    {
+      "description": "Auto-merge GitHub Actions patch/minor bumps once stable",
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
+    },
+    {
+      "description": "Auto-merge npm patch/minor bumps once stable",
+      "matchManagers": ["npm"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
+    },
+    {
+      "description": "Quantum SDKs — require manual review (breaking changes are common)",
+      "matchPackageNames": [
+        "amazon-braket-sdk",
+        "qiskit",
+        "qiskit-aqt-provider",
+        "qiskit-ibm-runtime"
+      ],
+      "automerge": false
+    }
+  ]
+}
