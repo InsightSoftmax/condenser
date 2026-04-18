@@ -12,8 +12,10 @@ repo_root = Path(__file__).parents[3]
 PLATFORMS = {
     "aqt":        {"backend": "IBEX",     "status": "active",     "cost_per_run_usd": 25.07},
     "ibm":        {"backend": "Brisbane", "status": "historical", "cost_per_run_usd": None},
-    "ionq":       {"backend": "Aria-1",   "status": "historical", "cost_per_run_usd": 33.00,  "csv_key": "ionq", "backend_filter": "Aria"},
-    "ionq_forte": {"backend": "Forte-1",  "status": "historical", "cost_per_run_usd": 259.00, "csv_key": "ionq", "backend_filter": "Forte"},
+    "ionq":       {"backend": "Aria-1",  "status": "historical", "cost_per_run_usd": 33.00,
+                   "csv_key": "ionq", "backend_filter": "Aria"},
+    "ionq_forte": {"backend": "Forte-1", "status": "historical", "cost_per_run_usd": 259.00,
+                   "csv_key": "ionq", "backend_filter": "Forte"},
     "rigetti":    {"backend": "Ankaa-3",  "status": "active",     "cost_per_run_usd": 3.90},
 }
 

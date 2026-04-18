@@ -1,0 +1,35 @@
+version: 2
+updates:
+  # Python dependencies (uv-managed)
+  - package-ecosystem: pip
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    groups:
+      quantum-sdks:
+        patterns:
+          - "amazon-braket-*"
+          - "qiskit*"
+      data-science:
+        patterns:
+          - "pandas"
+          - "matplotlib"
+          - "seaborn"
+
+  # Dashboard npm dependencies
+  - package-ecosystem: npm
+    directory: "/dashboard"
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+
+  # GitHub Actions
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5

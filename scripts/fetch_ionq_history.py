@@ -25,7 +25,7 @@ import json
 import os
 import sys
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 import requests
@@ -60,13 +60,13 @@ def _api_get(key: str, path: str, params: dict | None = None) -> dict | list:
 def _ts_to_iso(unix_ts: int | float | None) -> str:
     if not unix_ts:
         return ""
-    return datetime.fromtimestamp(unix_ts, tz=timezone.utc).isoformat()
+    return datetime.fromtimestamp(unix_ts, tz=UTC).isoformat()
 
 
 def _ts_to_date(unix_ts: int | float | None) -> str:
     if not unix_ts:
         return ""
-    return datetime.fromtimestamp(unix_ts, tz=timezone.utc).date().isoformat()
+    return datetime.fromtimestamp(unix_ts, tz=UTC).date().isoformat()
 
 
 def _lsb_key_to_bits(key: str, n_qubits: int = 2) -> str:
@@ -178,16 +178,16 @@ def main() -> None:
 
     if args.explore:
         parent = parents[0]
-        print(f"\n--- Parent job (raw) ---")
+        print("\n--- Parent job (raw) ---")
         print(json.dumps(parent, indent=2))
         try:
             results = _api_get(key, f"/jobs/{parent['id']}/results")
-            print(f"\n--- Results (keyed by child ID) ---")
+            print("\n--- Results (keyed by child ID) ---")
             print(json.dumps(results, indent=2))
             full = _api_get(key, f"/jobs/{parent['id']}")
             children = full.get("children", [])
             if children:
-                print(f"\n--- First child job ---")
+                print("\n--- First child job ---")
                 child = _api_get(key, f"/jobs/{children[0]}")
                 print(json.dumps(child, indent=2))
         except Exception as e:

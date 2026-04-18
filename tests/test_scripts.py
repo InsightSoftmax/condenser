@@ -35,7 +35,7 @@ def run_script(name: str, args: list[str], cwd: Path) -> subprocess.CompletedPro
 def append_results(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
     # Re-import so the cwd-relative paths inside the function resolve to tmp_path
-    import importlib, sys
+    import sys
     sys.path.insert(0, str(REPO_ROOT))
     import scripts.collect_results as cr
     importlib.reload(cr)
@@ -184,6 +184,7 @@ def test_collect_still_waiting_keeps_pending_file(tmp_path):
     # Patch rigetti_braket.collect to return None (still waiting)
     with patch.dict("sys.modules", {}):
         import importlib
+
         import scripts.collect_results as cr
         importlib.reload(cr)
 
@@ -208,7 +209,6 @@ def test_collect_runtime_error_removes_pending_file(tmp_path):
         "input_bits": "00", "circuit_length": 1}],
     }))
 
-    import importlib
     import scripts.collect_results as cr
     importlib.reload(cr)
 
