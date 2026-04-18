@@ -1,4 +1,4 @@
-# condenser — Claude Code Instructions
+# quantum-stability — Claude Code Instructions
 
 ## Project Purpose
 
@@ -35,7 +35,7 @@ Do **not** store `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` as secrets. Inste
 
 IAM setup files live in `infra/`:
 - `infra/iam-policy.json` — minimum Braket + S3 permissions
-- `infra/iam-trust-policy.json` — OIDC trust policy scoped to `InsightSoftmax/condenser` main branch
+- `infra/iam-trust-policy.json` — OIDC trust policy scoped to `InsightSoftmax/quantum-stability` main branch
 
 ### Other platform credentials (IonQ direct, IBM, etc.)
 
