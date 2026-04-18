@@ -8,6 +8,22 @@ title: About Insight Softmax
 
 The Quantum Stability Monitor is one of our open research initiatives — a longitudinal benchmarking program that tracks the real-world reliability of quantum hardware over time. Rather than one-off performance snapshots, we run the same circuits weekly on each platform and ask: *is this hardware getting more or less consistent?*
 
+## Past quantum work
+
+- [Case study: Using quantum annealing and gate-model algorithms to cut costs and accelerate time to insight](https://insightsoftmax.com/blog/case-study-using-quantum-annealing-and-gate-model-algorithms-to-cut-costs-and-accelerate-time-to-insight)
+- [Conquering the noise: How we overcame variability in large-scale runs of Braket's IonQ service](https://insightsoftmax.com/blog/conquering-the-noise-how-we-overcame-variability-in-large-scale-runs-of-brakets-ionq-service)
+
+## Partners & platforms
+
+- [Anzaetek](https://anzaetek.com/)
+- [AQT](https://www.aqt.eu/)
+- [AWS Braket](https://aws.amazon.com/braket/)
+- [IonQ](https://ionq.com/)
+- [Marqov](https://www.marqov.ai/)
+- [Q-CTRL](https://q-ctrl.com/)
+- [QOSF](https://qosf.org/)
+- [QuantWare](https://www.quantware.eu/)
+
 ## Get in touch
 
 If you're interested in quantum benchmarking, reliability research, or working with us:
