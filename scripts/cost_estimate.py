@@ -31,14 +31,15 @@ EUR_TO_USD = 1.09          # approximate; update as needed
 # S3 storage for result files is negligible (<1 KB per task).
 
 BRAKET_PRICING: dict[str, dict] = {
-    "Rigetti Ankaa-3": {
+    "Rigetti Cepheus-1-108Q": {
         "per_task_usd":   0.30,
-        "per_shot_usd":   0.00090,
+        "per_shot_usd":   0.000425,
         "region":         "us-west-1",
         "access":         "AWS Braket",
         "status":         "active",
         "module":         "rigetti_braket",
         "runs_per_year":  52,   # weekly
+        "notes":          "Replaced Ankaa-3 (retired April 2026). 108-qubit system.",
     },
     "IQM Garnet": {
         "per_task_usd":   0.30,

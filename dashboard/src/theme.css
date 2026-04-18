@@ -167,6 +167,74 @@ code, pre, .mono {
 }
 
 /* ==========================================================================
+   Contact form
+   ========================================================================== */
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.contact-form .form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.contact-form label {
+  font-family: 'Work Sans', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--isc-dark-blue);
+}
+
+.contact-form input,
+.contact-form textarea {
+  font-family: 'Public Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 300;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid var(--isc-border);
+  border-radius: 4px;
+  background: var(--isc-bg);
+  color: var(--isc-text);
+  transition: border-color 0.15s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: var(--isc-gold);
+}
+
+.contact-form textarea {
+  resize: vertical;
+}
+
+.contact-submit {
+  align-self: flex-start;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.6rem 1.4rem;
+  background: var(--isc-gold);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.contact-submit:hover {
+  background: var(--isc-gold-80);
+}
+
+/* ==========================================================================
    Footer
    ========================================================================== */
 

@@ -1,5 +1,5 @@
 ---
-title: Rigetti Ankaa-3
+title: Rigetti Cepheus-1-108Q
 ---
 
 ```js
@@ -7,9 +7,9 @@ import {successTimeSeries, volatilityTimeSeries, boxByLength, successByLength, s
 const data = await FileAttachment("data/rigetti.json").json();
 ```
 
-# Rigetti Ankaa-3
+# Rigetti Cepheus-1-108Q
 
-Superconducting QPU accessed via AWS Braket. Runs weekly on Tuesdays.
+Superconducting QPU accessed via AWS Braket. Runs weekly on Tuesdays. Historical data (through April 2026) is from the Ankaa-3 predecessor device.
 
 <div style="display: flex; gap: 2rem; margin: 1rem 0;">
   <div class="platform-card" style="flex: 1">
