@@ -1,5 +1,5 @@
 [project]
-name = "condenser"
+name = "quantum-stability"
 version = "0.1.0"
 description = "Longitudinal stability benchmarking of quantum computing platforms"
 requires-python = ">=3.11"

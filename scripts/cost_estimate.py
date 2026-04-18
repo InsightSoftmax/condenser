@@ -1,5 +1,5 @@
 """
-Estimate the cost of running the condenser benchmark suite.
+Estimate the cost of running the quantum-stability benchmark suite.
 
 Pricing is hardcoded with a verification date. Check provider pages before budgeting.
 

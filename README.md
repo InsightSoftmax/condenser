@@ -1,6 +1,8 @@
-# Condenser
+# Quantum Stability Monitor
 
 **Longitudinal stability benchmarking of quantum computing platforms.**
+
+Live dashboard: **[quantum-stability.insightsoftmax.com](https://quantum-stability.insightsoftmax.com)**
 
 This repository contains the benchmark circuits, automation, and raw results behind ISC's ongoing quantum platform stability study. It is a companion to ISC's published findings — not a tutorial or competitive ranking.
 
@@ -38,10 +40,13 @@ Plotting this index through time reveals drift, maintenance windows, hardware ch
 
 | Platform | Access path | Status |
 |---|---|---|
-| Rigetti Ankaa-3 | AWS Braket | Active (manual weekly runs) |
-| AQT | Qiskit / qiskit-aqt-provider | Active (manual weekly runs) |
+| Rigetti Ankaa-3 | AWS Braket | Active — weekly |
+| AQT IBEX | qiskit-aqt-provider | Active — weekly |
+| IQM Garnet | AWS Braket | Active — weekly |
+| IonQ Forte-1 | IonQ REST API | Active — monthly |
+| IonQ Forte-1 | AWS Braket | Active — monthly |
+| IBM Brisbane | Qiskit Runtime | Active — monthly |
 | IonQ Aria-1 | AWS Braket | Paused (budget) |
-| IBM | Qiskit Runtime | Pending (locating existing results) |
 
 ---
 
@@ -58,6 +63,7 @@ Results are not post-processed or normalized. Outliers are retained; weeks with 
 ```
 benchmarks/    circuit definitions and per-platform submission logic
 data/          raw weekly results (CSV, one file per platform)
+dashboard/     Observable Framework dashboard (deployed to GitHub Pages)
 scripts/       workflow entry point
 tests/         unit tests for circuit generation and data logic
 infra/         IAM policy reference files for AWS setup
@@ -74,5 +80,3 @@ archive/       prior exploratory notebooks
 ---
 
 *To run the benchmarks yourself, see [infra/README.md](infra/README.md) for AWS/IAM setup and [dashboard/README.md](dashboard/README.md) for the dashboard.*
-
-.
