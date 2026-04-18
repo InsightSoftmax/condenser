@@ -4,10 +4,10 @@ version = "0.1.0"
 description = "Longitudinal stability benchmarking of quantum computing platforms"
 requires-python = ">=3.11"
 dependencies = [
-    "amazon-braket-sdk>=1.88.0",
-    "qiskit>=1.0.0",
-    "qiskit-aqt-provider>=1.0.0",
-    "qiskit-ibm-runtime>=0.20.0",
+    "amazon-braket-sdk>=1.115.0",
+    "qiskit>=2.4.0",
+    "qiskit-aqt-provider>=1.14.0",
+    "qiskit-ibm-runtime>=0.46.1",
     "requests>=2.32.0",
     "pandas>=2.2.0",
     "matplotlib>=3.9.0",
