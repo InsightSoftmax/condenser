@@ -13,6 +13,6 @@
     "plotly.js-dist-min": "^3.5.0"
   },
   "devDependencies": {
-    "eslint": "^9.39.4"
+    "eslint": "^10.2.1"
   }
 }
