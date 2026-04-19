@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Dark rounded-square background -->
+  <rect width="100" height="100" rx="18" ry="18" fill="#1A1F27"/>
+
+  <!-- Three atomic orbital rings at 0°, 60°, 120° -->
+  <g fill="none" stroke="#CC8A00" stroke-width="3">
+    <ellipse cx="50" cy="50" rx="44" ry="12"/>
+    <ellipse cx="50" cy="50" rx="44" ry="12" transform="rotate(60 50 50)"/>
+    <ellipse cx="50" cy="50" rx="44" ry="12" transform="rotate(120 50 50)"/>
+  </g>
+
+  <!-- ISC icon as nucleus, centered (original viewBox 0 0 40 40) -->
+  <g transform="translate(35,35) scale(0.75)" fill="white">
+    <path d="M28.64 8.78a7.25 7.25 0 0 0-6.25 3.62l-4.27 7.44-4.26 7.43a4.07 4.07 0 0 1-3.52 2h-7V13.93H.22v18.52h10.11a7.25 7.25 0 0 0 6.25-3.62l4.26-7.43 4.28-7.4a4.11 4.11 0 0 1 3.53-2.05H40V8.78Z"/>
+    <path d="M25.12 27.26 22.67 23l-1.82 3.16 1.54 2.68a7.27 7.27 0 0 0 6.26 3.62H40V29.3H28.64a4.1 4.1 0 0 1-3.52-2.04M0 7.55h3.59v3.3H0z"/>
+  </g>
+</svg>
