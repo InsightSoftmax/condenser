@@ -148,30 +148,16 @@ const sortedCostRows = [...costRows].sort((a, b) => {
 ```
 
 ```js
-html`<table style="width:100%;border-collapse:collapse;font-size:0.875rem;font-family:'Roboto Mono',monospace">
-  <thead>
-    <tr style="border-bottom:2px solid var(--isc-gray-40);text-align:left;font-family:'Work Sans',sans-serif">
-      <th style="padding:0.5rem 1.25rem 0.5rem 0;font-weight:600">Platform</th>
-      <th style="padding:0.5rem 1.25rem;font-weight:600">Access</th>
-      <th style="padding:0.5rem 1.25rem;font-weight:600">Status</th>
-      <th style="padding:0.5rem 1.25rem;text-align:right;font-weight:600">Per run</th>
-      <th style="padding:0.5rem 0 0.5rem 1.25rem;text-align:right;font-weight:600">Annual (52×)</th>
-    </tr>
-  </thead>
-  <tbody>
-    ${sortedCostRows.map(row => {
-      const muted = row.status !== "active";
-      const s = `border-bottom:1px solid var(--isc-gray-20);${muted ? "opacity:0.45" : ""}`;
-      return html`<tr style="${s}">
-        <td style="padding:0.45rem 1.25rem 0.45rem 0">${row.platform}</td>
-        <td style="padding:0.45rem 1.25rem">${row.access}</td>
-        <td style="padding:0.45rem 1.25rem">${row.status === "active" ? "Active" : "Paused"}</td>
-        <td style="padding:0.45rem 1.25rem;text-align:right">$${row.cost_per_run.toFixed(2)}</td>
-        <td style="padding:0.45rem 0 0.45rem 1.25rem;text-align:right">$${row.annual_52.toFixed(0)}</td>
-      </tr>`;
-    })}
-  </tbody>
-</table>`
+Inputs.table(sortedCostRows, {
+  select: false,
+  columns: ["platform", "access", "status", "cost_per_run", "annual_52"],
+  header: {platform: "Platform", access: "Access", status: "Status", cost_per_run: "Per run", annual_52: "Annual (52×)"},
+  format: {
+    status: d => html`<span class="badge ${d === "active" ? "badge-active" : "badge-historical"}">${d === "active" ? "Active" : "Paused"}</span>`,
+    cost_per_run: d => `$${d.toFixed(2)}`,
+    annual_52: d => `$${d.toFixed(0)}`,
+  },
+})
 ```
 
 *AQT pricing from quotation Q2511001 (Nov 2025), converted at EUR/USD ≈ 1.09. IonQ figure is historical (Aria-1 at $0.03/shot); current Forte would be ~$83/run.*

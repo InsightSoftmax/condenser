@@ -11,7 +11,7 @@ export default {
       ]
     },
     {
-      name: "Historical",
+      name: "Paused Platforms",
       pages: [
         {name: "IBM Brisbane", path: "/ibm"},
         {name: "IonQ Aria-1", path: "/ionq"},
