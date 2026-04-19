@@ -14,18 +14,24 @@ const summary = await FileAttachment("data/summary.json").json();
 // Platform cards
 const statusLabel = {active: "Active", historical: "Paused", paused: "Paused"};
 const statusClass = {active: "badge-active", historical: "badge-historical", paused: "badge-paused"};
+const sortedSummary = [...summary].sort((a, b) => {
+  const order = s => s === "active" ? 0 : 1;
+  const so = order(a.status) - order(b.status);
+  return so !== 0 ? so : a.platform.localeCompare(b.platform);
+});
 ```
 
 <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; margin: 1.5rem 0;">
-${summary.map(p => html`
+${sortedSummary.map(p => html`
   <div class="platform-card">
-    <div class="platform-name">
-      ${p.platform === "rigetti" ? html`<a href="/rigetti">Rigetti ${p.backend}</a>` :
-        p.platform === "aqt"     ? html`<a href="/aqt">AQT ${p.backend}</a>` :
-        p.platform === "ibm"          ? html`<a href="/ibm">IBM ${p.backend}</a>` :
-        p.platform === "ionq_forte"   ? html`<a href="/ionq-forte">IonQ ${p.backend}</a>` :
-                                        html`<a href="/ionq">IonQ ${p.backend}</a>`}
-      <span class="badge ${statusClass[p.status]}" style="margin-left: 0.5rem">${statusLabel[p.status]}</span>
+    <div class="platform-name" style="display:flex;flex-direction:column;align-items:flex-start;gap:0.35rem">
+      ${p.platform === "rigetti_cepheus" ? html`<a href="/rigetti-cepheus">Rigetti ${p.backend}</a>` :
+        p.platform === "rigetti_ankaa"   ? html`<a href="/rigetti-ankaa">Rigetti ${p.backend}</a>` :
+        p.platform === "aqt"             ? html`<a href="/aqt">AQT ${p.backend}</a>` :
+        p.platform === "ibm"             ? html`<a href="/ibm">IBM ${p.backend}</a>` :
+        p.platform === "ionq_forte"      ? html`<a href="/ionq-forte">IonQ ${p.backend}</a>` :
+                                           html`<a href="/ionq">IonQ ${p.backend}</a>`}
+      <span class="badge ${statusClass[p.status]}">${statusLabel[p.status]}</span>
     </div>
     ${p.latest_success != null ? html`
       <div class="metric">${(p.latest_success * 100).toFixed(1)}%</div>
@@ -43,8 +49,16 @@ ${summary.map(p => html`
 Within-run standard deviation per run — lower is more consistent.
 
 ```js
-const PLATFORM_LABEL = {aqt: "AQT IBEX", ibm: "IBM Brisbane", ionq: "IonQ Aria-1", ionq_forte: "IonQ Forte-1", rigetti: "Rigetti Cepheus-1-108Q"};
-const PLATFORM_COLOR = {aqt: "#363D47", ibm: "#1192E8", ionq: "#74737B", ionq_forte: "#99979D", rigetti: "#CC8A00"};
+const PLATFORM_LABEL = {
+  aqt: "AQT IBEX", ibm: "IBM Brisbane",
+  ionq: "IonQ Aria-1", ionq_forte: "IonQ Forte-1",
+  rigetti_ankaa: "Rigetti Ankaa-3", rigetti_cepheus: "Rigetti Cepheus-1-108Q",
+};
+const PLATFORM_COLOR = {
+  aqt: "#363D47", ibm: "#1192E8",
+  ionq: "#74737B", ionq_forte: "#99979D",
+  rigetti_ankaa: "#A07800", rigetti_cepheus: "#CC8A00",
+};
 const allRuns = summary.flatMap(p =>
   p.sparkline.map(d => ({...d, label: PLATFORM_LABEL[p.platform] ?? p.platform, date: new Date(d.date)}))
 );
@@ -106,29 +120,40 @@ Plot.plot({
 
 ```js
 const PLATFORM_NAME = {
-  aqt: "AQT IBEX (direct)", ionq: "IonQ Aria-1", ionq_forte: "IonQ Forte-1", rigetti: "Rigetti Cepheus-1-108Q",
+  aqt: "AQT IBEX (direct)", ibm: "IBM Brisbane",
+  ionq: "IonQ Aria-1", ionq_forte: "IonQ Forte-1",
+  rigetti_ankaa: "Rigetti Ankaa-3", rigetti_cepheus: "Rigetti Cepheus-1-108Q",
 };
 const ACCESS = {
-  aqt: "qiskit-aqt-provider", ionq: "AWS Braket (historical)",
-  ionq_forte: "IonQ REST API (historical)", rigetti: "AWS Braket",
+  aqt: "qiskit-aqt-provider", ibm: "Qiskit Runtime (historical)",
+  ionq: "AWS Braket (historical)", ionq_forte: "IonQ REST API (historical)",
+  rigetti_ankaa: "AWS Braket (historical)", rigetti_cepheus: "AWS Braket",
 };
 const costRows = [
   ...summary.filter(p => p.cost_per_run_usd != null).map(p => ({
     platform: PLATFORM_NAME[p.platform] ?? p.platform,
     access: ACCESS[p.platform] ?? "—",
+    status: p.status,
     cost_per_run: p.cost_per_run_usd,
     annual_52: p.cost_per_run_usd * 52,
   })),
-  {platform: "AQT IBEX (via Braket)", access: "AWS Braket", cost_per_run: 26.50, annual_52: 26.50 * 52},
+  {platform: "AQT IBEX (via Braket)", access: "AWS Braket", status: "alternative",
+   cost_per_run: 26.50, annual_52: 26.50 * 52},
 ];
+const sortedCostRows = [...costRows].sort((a, b) => {
+  const order = s => s === "active" ? 0 : 1;
+  const so = order(a.status) - order(b.status);
+  return so !== 0 ? so : a.platform.localeCompare(b.platform);
+});
 ```
 
 ```js
-Inputs.table(costRows.sort((a, b) => a.platform.localeCompare(b.platform)), {
+Inputs.table(sortedCostRows, {
   select: false,
-  columns: ["platform", "access", "cost_per_run", "annual_52"],
-  header: {platform: "Platform", access: "Access", cost_per_run: "Per run", annual_52: "Annual (52×)"},
+  columns: ["platform", "access", "status", "cost_per_run", "annual_52"],
+  header: {platform: "Platform", access: "Access", status: "Status", cost_per_run: "Per run", annual_52: "Annual (52×)"},
   format: {
+    status: d => html`<span class="badge ${d === "active" ? "badge-active" : "badge-historical"}">${d === "active" ? "Active" : "Paused"}</span>`,
     cost_per_run: d => `$${d.toFixed(2)}`,
     annual_52: d => `$${d.toFixed(0)}`,
   },

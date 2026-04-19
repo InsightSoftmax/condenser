@@ -4,13 +4,19 @@ export default {
   pages: [
     {name: "Overview", path: "/"},
     {
-      name: "Platforms",
+      name: "Active Platforms",
       pages: [
         {name: "AQT IBEX", path: "/aqt"},
+        {name: "Rigetti Cepheus-1-108Q", path: "/rigetti-cepheus"},
+      ]
+    },
+    {
+      name: "Paused Platforms",
+      pages: [
         {name: "IBM Brisbane", path: "/ibm"},
         {name: "IonQ Aria-1", path: "/ionq"},
         {name: "IonQ Forte-1", path: "/ionq-forte"},
-        {name: "Rigetti Cepheus-1-108Q", path: "/rigetti"},
+        {name: "Rigetti Ankaa-3", path: "/rigetti-ankaa"},
       ]
     },
     {name: "Methodology", path: "/about"},
