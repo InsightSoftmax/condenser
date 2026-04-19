@@ -3,7 +3,7 @@ title: IBM Brisbane
 ---
 
 ```js
-import {successTimeSeries, volatilityTimeSeries, boxByLength, successByLength, successByInput, successSurface3D, temporalDriftScatter} from "./components/platformCharts.js";
+import {successTimeSeries, volatilityTimeSeries, boxByLength, successByLength, successByInput, successSurface3D} from "./components/platformCharts.js";
 const data = await FileAttachment("data/ibm.json").json();
 ```
 
@@ -78,14 +78,6 @@ Does the initial qubit state affect results? Ideally it shouldn't — deviations
 
 ```js
 successByInput(data, {color: "#1192E8"})
-```
-
-## Temporal drift within runs
-
-Per-circuit completion time vs. success probability, colored by circuit depth. Systematic patterns indicate hardware drift during execution.
-
-```js
-temporalDriftScatter(data)
 ```
 
 ## All runs
