@@ -16,7 +16,10 @@ PLATFORMS = {
                    "csv_key": "ionq", "backend_filter": "Aria"},
     "ionq_forte": {"backend": "Forte-1", "status": "historical", "cost_per_run_usd": 259.00,
                    "csv_key": "ionq", "backend_filter": "Forte"},
-    "rigetti":    {"backend": "Cepheus-1-108Q", "status": "active",  "cost_per_run_usd": 3.43},
+    "rigetti_ankaa":   {"backend": "Ankaa-3",        "status": "historical", "cost_per_run_usd": 3.90,
+                        "csv_key": "rigetti", "backend_filter": "Ankaa"},
+    "rigetti_cepheus": {"backend": "Cepheus-1-108Q", "status": "active",    "cost_per_run_usd": 3.43,
+                        "csv_key": "rigetti", "backend_filter": "Cepheus"},
 }
 
 summary = []

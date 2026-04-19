@@ -1,6 +1,6 @@
 """
-Data loader: Rigetti Cepheus-1-108Q results (from April 2026 onwards).
-Reads data/rigetti/results.csv and filters to Cepheus rows.
+Data loader: Rigetti Ankaa-3 historical results (through April 2026).
+Reads data/rigetti/results.csv and filters to Ankaa-3 rows.
 """
 import json
 import sys
@@ -17,9 +17,9 @@ if not csv_path.exists():
 
 df = pd.read_csv(csv_path, parse_dates=["run_date"], dtype={"input_bits": str})
 
-# Exclude simulator/dry-run rows; filter to Cepheus device
+# Exclude simulator/dry-run rows; filter to Ankaa-3 device
 df = df[~df["notes"].fillna("").str.contains("dry_run|simulator")]
-df = df[df["backend"].str.contains("Cepheus", na=False)]
+df = df[df["backend"].str.contains("Ankaa", na=False)]
 
 # Per-run aggregates (one row per run_date)
 runs = (
@@ -54,9 +54,8 @@ by_input = (
 by_input = by_input.round(4)
 
 output = {
-    "platform": "rigetti",
-    "backend": "Cepheus-1-108Q",
-    "platform": "rigetti_cepheus",
+    "platform": "rigetti_ankaa",
+    "backend": "Ankaa-3",
     "runs": runs.to_dict(orient="records"),
     "circuits": circuits.to_dict(orient="records"),
     "by_length": by_length.to_dict(orient="records"),

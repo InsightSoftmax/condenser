@@ -1,20 +1,20 @@
 ---
-title: Rigetti Cepheus-1-108Q
+title: Rigetti Ankaa-3
 ---
 
 ```js
 import {successTimeSeries, volatilityTimeSeries, boxByLength, successByLength, successByInput, successSurface3D} from "./components/platformCharts.js";
-const data = await FileAttachment("data/rigetti.json").json();
+const data = await FileAttachment("data/rigetti-ankaa.json").json();
 ```
 
-# Rigetti Cepheus-1-108Q
+# Rigetti Ankaa-3
 
-Rigetti's 108-qubit superconducting QPU, accessed via AWS Braket. Runs weekly on Tuesdays. Succeeded the [Ankaa-3](/rigetti-ankaa) in April 2026.
+Historical data from Rigetti's 84-qubit Ankaa-3 superconducting QPU, accessed via AWS Braket. Ankaa-3 was retired by Rigetti in April 2026 and succeeded by [Cepheus-1-108Q](/rigetti).
 
 <div style="display: flex; gap: 2rem; margin: 1rem 0;">
   <div class="platform-card" style="flex: 1">
     <div class="metric">${(data.runs.at(-1)?.mean_success * 100).toFixed(1)}%</div>
-    <div class="metric-label">Latest run success rate</div>
+    <div class="metric-label">Final run success rate</div>
   </div>
   <div class="platform-card" style="flex: 1">
     <div class="metric">${(data.runs.reduce((s, d) => s + d.mean_success, 0) / data.runs.length * 100).toFixed(1)}%</div>
@@ -35,7 +35,7 @@ Rigetti's 108-qubit superconducting QPU, accessed via AWS Braket. Runs weekly on
 Within-run standard deviation per week — the primary stability metric for this benchmark. Lower is more consistent; an upward trend indicates growing variability.
 
 ```js
-volatilityTimeSeries(data, {color: "#CC8A00"})
+volatilityTimeSeries(data, {color: "#A07800"})
 ```
 
 ## Success probability over time
@@ -43,7 +43,7 @@ volatilityTimeSeries(data, {color: "#CC8A00"})
 Success probability for a given circuit is the fraction of shots that produced the correct output — where "correct" is the deterministic, noise-free answer computed by classical simulation. Each point is the mean across the 10 circuits sampled that week. The shaded band shows ±1 standard deviation within the run.
 
 ```js
-successTimeSeries(data, {color: "#CC8A00"})
+successTimeSeries(data, {color: "#A07800"})
 ```
 
 ## Performance breakdown
@@ -55,13 +55,13 @@ How success probability varies across circuit depth and input state, aggregated 
 <p style="margin-bottom:0">Each point is one (depth, input state) combination. Point size reflects how many circuits were run with that combination. Drag to rotate.</p>
 
 ```js
-successSurface3D(data, {color: "#CC8A00"})
+successSurface3D(data, {color: "#A07800"})
 ```
 
 ### Distribution by circuit depth
 
 ```js
-boxByLength(data, {color: "#CC8A00"})
+boxByLength(data, {color: "#A07800"})
 ```
 
 ### Mean success by circuit depth
@@ -69,7 +69,7 @@ boxByLength(data, {color: "#CC8A00"})
 Mean success probability for each depth, averaged across all runs. A declining trend confirms that noise accumulates as circuit depth increases.
 
 ```js
-successByLength(data, {color: "#CC8A00"})
+successByLength(data, {color: "#A07800"})
 ```
 
 ### Mean success by input state
@@ -77,7 +77,7 @@ successByLength(data, {color: "#CC8A00"})
 Does the initial qubit state affect results? Ideally it shouldn't — deviations suggest state-preparation or readout asymmetry.
 
 ```js
-successByInput(data, {color: "#CC8A00"})
+successByInput(data, {color: "#A07800"})
 ```
 
 ## All runs
