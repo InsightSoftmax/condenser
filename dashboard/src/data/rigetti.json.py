@@ -43,6 +43,7 @@ by_length = (
     .reset_index()
     .rename(columns={"circuit_length": "length"})
 )
+by_length["std_success"] = by_length["std_success"].fillna(0)
 by_length = by_length.round(4)
 
 # Aggregated by input state
@@ -51,12 +52,12 @@ by_input = (
     .agg(mean_success="mean", std_success="std", n="count")
     .reset_index()
 )
+by_input["std_success"] = by_input["std_success"].fillna(0)
 by_input = by_input.round(4)
 
 output = {
-    "platform": "rigetti",
-    "backend": "Cepheus-1-108Q",
     "platform": "rigetti_cepheus",
+    "backend": "Cepheus-1-108Q",
     "runs": runs.to_dict(orient="records"),
     "circuits": circuits.to_dict(orient="records"),
     "by_length": by_length.to_dict(orient="records"),

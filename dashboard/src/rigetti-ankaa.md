@@ -9,7 +9,7 @@ const data = await FileAttachment("data/rigetti-ankaa.json").json();
 
 # Rigetti Ankaa-3
 
-Historical data from Rigetti's 84-qubit Ankaa-3 superconducting QPU, accessed via AWS Braket. Ankaa-3 was retired by Rigetti in April 2026 and succeeded by [Cepheus-1-108Q](/rigetti).
+Historical data from Rigetti's 84-qubit Ankaa-3 superconducting QPU, accessed via AWS Braket. Ankaa-3 was retired by Rigetti in April 2026 and succeeded by [Cepheus-1-108Q](/rigetti-cepheus).
 
 <div style="display: flex; gap: 2rem; margin: 1rem 0;">
   <div class="platform-card" style="flex: 1">

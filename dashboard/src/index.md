@@ -25,7 +25,7 @@ const sortedSummary = [...summary].sort((a, b) => {
 ${sortedSummary.map(p => html`
   <div class="platform-card">
     <div class="platform-name" style="display:flex;flex-direction:column;align-items:flex-start;gap:0.35rem">
-      ${p.platform === "rigetti_cepheus" ? html`<a href="/rigetti">Rigetti ${p.backend}</a>` :
+      ${p.platform === "rigetti_cepheus" ? html`<a href="/rigetti-cepheus">Rigetti ${p.backend}</a>` :
         p.platform === "rigetti_ankaa"   ? html`<a href="/rigetti-ankaa">Rigetti ${p.backend}</a>` :
         p.platform === "aqt"             ? html`<a href="/aqt">AQT ${p.backend}</a>` :
         p.platform === "ibm"             ? html`<a href="/ibm">IBM ${p.backend}</a>` :

@@ -9,7 +9,7 @@ const data = await FileAttachment("data/rigetti.json").json();
 
 # Rigetti Cepheus-1-108Q
 
-Rigetti's 108-qubit superconducting QPU, accessed via AWS Braket. Runs weekly on Tuesdays. Succeeded the [Ankaa-3](/rigetti-ankaa) in April 2026.
+Rigetti's 108-qubit superconducting QPU, accessed via AWS Braket. Runs weekly on Tuesdays. Succeeded the [Ankaa-3 (historical)](/rigetti-ankaa) in April 2026.
 
 <div style="display: flex; gap: 2rem; margin: 1rem 0;">
   <div class="platform-card" style="flex: 1">
